@@ -189,7 +189,7 @@
 <tspan x="10" y="2986">  │   │ │ ├─┬ form-data@2.1.4 </tspan>
 <tspan x="10" y="3002">  │   │ │ │ └── asynckit@0.4.0 </tspan>
 <tspan x="10" y="3018">  │   │ │ ├─┬ har-validator@4.2.1 </tspan>
-<tspan x="10" y="3034">  │   │ │ │ ├─┬ ajv@4.11.6 </tspan>
+<tspan x="10" y="3034">  │   │ │ │ ├─┬ ajv@4.11.7 </tspan>
 <tspan x="10" y="3050">  │   │ │ │ │ └── co@4.6.0 </tspan>
 <tspan x="10" y="3066">  │   │ │ │ └── har-schema@1.0.5 </tspan>
 <tspan x="10" y="3082">  │   │ │ ├─┬ hawk@3.1.3 </tspan>
