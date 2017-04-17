@@ -1,4 +1,4 @@
-<div class="apidocDiv">
+<html><head></head><body><div class="apidocDiv">
 <style>
 /*csslint
 */
@@ -47,17 +47,10 @@
 }
 </style>
 <h1>api documentation for
-    <a
-
-        href="https://github.com/mcollina/mosca#readme"
-
-    >mosca (v2.3.0)</a>
+    <a href="https://github.com/mcollina/mosca#readme">mosca (v2.3.0)</a>
 </h1>
 <h4>MQTT broker as a module</h4>
-<div class="apidocSectionDiv"><a
-    href="#apidoc.tableOfContents"
-    id="apidoc.tableOfContents"
-><h1>table of contents</h1></a><ol>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
 
     <li class="apidocModuleLi"><a href="#apidoc.module.mosca">module mosca</a><ol>
 
@@ -2685,11 +2678,11 @@
     <li>description and source-code<pre class="apidocCodePre">Authorizer.prototype.addUser = function (user, pass, authorizePublish, authorizeSubscribe, cb) {
   var that = this;
 
-  if (typeof authorizePublish === &#x22;function&#x22;) {
+  if (typeof authorizePublish === "function") {
     cb = authorizePublish;
     authorizePublish = null;
     authorizeSubscribe = null;
-  } else if (typeof authorizeSubscribe == &#x22;function&#x22;) {
+  } else if (typeof authorizeSubscribe == "function") {
     cb = authorizeSubscribe;
     authorizeSubscribe = null;
   }
@@ -2795,7 +2788,7 @@
   var modernOpts = options.modernize(opts);
   var validationResult = options.validate(modernOpts);
 
-  if (validationResult.errors.length &#x3e; 0) {
+  if (validationResult.errors.length &gt; 0) {
     var errMessage = validationResult.errors[0].message;
     if (callback) {
       callback(new Error(errMessage));
@@ -2868,7 +2861,7 @@
       }
       else {
         that.ascoltatore = ascoltatori.build(that.modernOpts.backend, done);
-        that.ascoltatore.on(&#x27;error&#x27;, that.emit.bind(that, &#x27;error&#x27;));
+        that.ascoltatore.on('error', that.emit.bind(that, 'error'));
       }
     },
 
@@ -2876,13 +2869,13 @@
 
     function (done) {
       // REFACTOR: partially move to options.validate and options.populate?
-      var persistenceFactory = that.modernOpts.persistence &#x26;&#x26; that.modernOpts.persistence.factory;
+      var persistenceFactory = that.modernOpts.persistence &amp;&amp; that.modernOpts.persistence.factory;
       if (persistenceFactory) {
-        if (typeof persistenceFactory === &#x27;string&#x27;) {
+        if (typeof persistenceFactory === 'string') {
           var factoryName = persistenceFactory;
           persistenceFactory = persistence.getFactory(factoryName);
           if (!persistenceFactory) {
-            return callback(new Error(&#x27;No persistence factory found for &#x27; + factoryName ));
+            return callback(new Error('No persistence factory found for ' + factoryName ));
           }
         }
 
@@ -2915,14 +2908,14 @@
 
       that.modernOpts.interfaces.forEach(function (iface) {
         var name = iface.type;
-        if (typeof name !== &#x22;string&#x22;) {
+        if (typeof name !== "string") {
           name = iface.type.name;
         }
         logInfo[name] = iface.port;
       });
 
-      that.logger.info(logInfo, &#x22;server started&#x22;);
-      that.emit(&#x22;ready&#x22;);
+      that.logger.info(logInfo, "server started");
+      that.emit("ready");
       done(null);
     }
   ], function(err, results){
@@ -2931,10 +2924,10 @@
     }
   });
 
-  that.on(&#x22;clientConnected&#x22;, function(client) {
+  that.on("clientConnected", function(client) {
     if(that.modernOpts.publishNewClient) {
       that.publish({
-        topic: &#x22;$SYS/&#x22; + that.id + &#x22;/new/clients&#x22;,
+        topic: "$SYS/" + that.id + "/new/clients",
         payload: client.id ...</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 };
@@ -2946,12 +2939,12 @@ var settings = {
 
 var server = new mosca.<span class="apidocCodeKeywordSpan">Server</span>(settings);
 
-server.on(&#x27;clientConnected&#x27;, function(client) {
-    console.log(&#x27;client connected&#x27;, client.id);
+server.on('clientConnected', function(client) {
+    console.log('client connected', client.id);
 });
 
 // fired when a message is received
-server.on(&#x27;published&#x27;, function(packet, client) {
+server.on('published', function(packet, client) {
 ...</pre></li>
     </ul>
 
@@ -3074,11 +3067,11 @@ server.on(&#x27;published&#x27;, function(packet, client) {
   }
 
   steed.each(stuffToClose, function(toClose, cb) {
-    toClose.close(cb, &#x22;server closed&#x22;);
+    toClose.close(cb, "server closed");
   }, function() {
     that.ascoltatore.close(function () {
-      that.logger.info(&#x22;server closed&#x22;);
-      that.emit(&#x22;closed&#x22;);
+      that.logger.info("server closed");
+      that.emit("closed");
       callback();
     });
   });
@@ -3198,7 +3191,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
   var that = this;
   var logger = this.logger;
 
-  if (typeof client === &#x27;function&#x27;) {
+  if (typeof client === 'function') {
     callback = client;
     client = null;
   } else if (client) {
@@ -3228,7 +3221,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
 
   that.storePacket(newPacket, function() {
     if (that.closed) {
-      logger.debug({ packet: newPacket }, &#x22;not delivering because we are closed&#x22;);
+      logger.debug({ packet: newPacket }, "not delivering because we are closed");
       return;
     }
 
@@ -3238,12 +3231,12 @@ server.on(&#x27;published&#x27;, function(packet, client) {
       opts,
       function() {
         that.published(newPacket, client, function() {
-          if( newPacket.topic.indexOf( &#x27;$SYS&#x27; ) &#x3e;= 0 ) {
-            logger.trace({ packet: newPacket }, &#x22;published packet&#x22;);
+          if( newPacket.topic.indexOf( '$SYS' ) &gt;= 0 ) {
+            logger.trace({ packet: newPacket }, "published packet");
           } else {
-            logger.debug({ packet: newPacket }, &#x22;published packet&#x22;);
+            logger.debug({ packet: newPacket }, "published packet");
           }
-          that.emit(&#x22;published&#x22;, newPacket, client);
+          that.emit("published", newPacket, client);
           callback(undefined, newPacket);
         });
       }
@@ -3327,7 +3320,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">Server.prototype.toString = function () {
-  return &#x27;mosca.Server&#x27;;
+  return 'mosca.Server';
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -3395,8 +3388,8 @@ server.on(&#x27;published&#x27;, function(packet, client) {
 
   function doPublish(topic, value) {
     server.publish({
-      topic: &#x22;$SYS/&#x22; + server.id + &#x22;/&#x22; + topic,
-      payload: &#x22;&#x22; + value
+      topic: "$SYS/" + server.id + "/" + topic,
+      payload: "" + value
     });
   }
 
@@ -3418,28 +3411,28 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     stats.load.m15.maPublishedMessages.push(date, stats.lastIntervalPublishedMessages);
     stats.lastIntervalPublishedMessages = 0;
 
-    doPublish(&#x22;version&#x22;, version);
-    doPublish(&#x22;started_at&#x22;, server.stats.started.toISOString());
-    doPublish(&#x22;uptime&#x22;, mom.from(Date.now(), true));
-    doPublish(&#x22;clients/maximum&#x22;, stats.maxConnectedClients);
-    doPublish(&#x22;clients/connected&#x22;, stats.connectedClients);
-    doPublish(&#x22;publish/received&#x22;, stats.publishedMessages);
-    doPublish(&#x22;load/connections/15min&#x22;, stats.load.m15.connectedClients);
-    doPublish(&#x22;load/publish/received/15min&#x22;, stats.load.m15.publishedMessages);
-    doPublish(&#x22;load/connections/5min&#x22;, stats.load.m5.connectedClients);
-    doPublish(&#x22;load/publish/received/5min&#x22;, stats.load.m5.publishedMessages);
-    doPublish(&#x22;load/connections/1min&#x22;, stats.load.m1.connectedClients);
-    doPublish(&#x22;load/publish/received/1min&#x22;, stats.load.m1.publishedMessages);
-    doPublish(&#x22;memory/rss&#x22;, mem.rss);
-    doPublish(&#x22;memory/heap/current&#x22;, mem.heapUsed);
-    doPublish(&#x22;memory/heap/maximum&#x22;, mem.heapTotal);
+    doPublish("version", version);
+    doPublish("started_at", server.stats.started.toISOString());
+    doPublish("uptime", mom.from(Date.now(), true));
+    doPublish("clients/maximum", stats.maxConnectedClients);
+    doPublish("clients/connected", stats.connectedClients);
+    doPublish("publish/received", stats.publishedMessages);
+    doPublish("load/connections/15min", stats.load.m15.connectedClients);
+    doPublish("load/publish/received/15min", stats.load.m15.publishedMessages);
+    doPublish("load/connections/5min", stats.load.m5.connectedClients);
+    doPublish("load/publish/received/5min", stats.load.m5.publishedMessages);
+    doPublish("load/connections/1min", stats.load.m1.connectedClients);
+    doPublish("load/publish/received/1min", stats.load.m1.publishedMessages);
+    doPublish("memory/rss", mem.rss);
+    doPublish("memory/heap/current", mem.heapUsed);
+    doPublish("memory/heap/maximum", mem.heapTotal);
   }, 10 * 1000);
 
   events.forEach(function(event) {
     server.on(event.name, event);
   });
 
-  server.once(&#x22;closed&#x22;, function() {
+  server.once("closed", function() {
     clearInterval(timer);
 
     events.forEach(function(event) {
@@ -3498,10 +3491,10 @@ server.on(&#x27;published&#x27;, function(packet, client) {
 
   var db = sublevel(this.db);
 
-  this._retained = db.sublevel(&#x22;retained&#x22;);
-  this._clientSubscriptions = db.sublevel(&#x22;clientSubscriptions&#x22;);
-  this._subscriptions = db.sublevel(&#x22;subscriptions&#x22;);
-  this._offlinePackets = db.sublevel(&#x22;offlinePackets&#x22;);
+  this._retained = db.sublevel("retained");
+  this._clientSubscriptions = db.sublevel("clientSubscriptions");
+  this._subscriptions = db.sublevel("subscriptions");
+  this._offlinePackets = db.sublevel("offlinePackets");
   this._subMatcher = new Matcher();
   this._packetCounter = 0;
   this._lastStoredPacketTime = Date.now();
@@ -3510,16 +3503,16 @@ server.on(&#x27;published&#x27;, function(packet, client) {
   var that = this;
   var stream = this._subscriptions.createReadStream();
   this._streams.push(stream);
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     that._subMatcher.add(data.value.topic, data.key);
   });
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     if (callback) {
       callback(null, that);
     }
   });
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 }</pre></li>
@@ -3559,7 +3552,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     this._packetCounter = 0;
   }
   this._lastStoredPacketTime = currentTime;
-  var key = util.format(&#x22;%s:%d:%d&#x22;, client, currentTime, ++this._packetCounter);
+  var key = util.format("%s:%d:%d", client, currentTime, ++this._packetCounter);
   packet.ttl = this.options.ttl.packets + currentTime;
   this._offlinePackets.put(key, packet, cb);
 }</pre></li>
@@ -3595,15 +3588,15 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.LevelUp.prototype.deleteOfflinePacket = function (client, messageId, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var found = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     if (data.value.messageId !== messageId) {
       return;
     }
@@ -3617,17 +3610,17 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
-    stream.on(&#x22;end&#x22;, function() {
+    stream.on("error", done);
+    stream.on("end", function() {
       if (!found) {
         done();
       }
@@ -3654,19 +3647,19 @@ server.on(&#x27;published&#x27;, function(packet, client) {
   this._streams.push(stream);
   matcher.add(pattern, true);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     cb(null, matched);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;data&#x22;, function(data) {
-    if (matcher.match(data.key).size &#x3e; 0) {
+  stream.on("data", function(data) {
+    if (matcher.match(data.key).size &gt; 0) {
       matched.push(data.value);
     }
   });
@@ -3691,8 +3684,8 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     subscriptions = subscriptions || {};
 
     Object.keys(subscriptions).forEach(function(key) {
-      var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
-      if (subscriptions[key].ttl &#x3c;= Date.now()) {
+      var levelKey = util.format("%s:%s", key, client.id);
+      if (subscriptions[key].ttl &lt;= Date.now()) {
         delete subscriptions[key];
         that._subMatcher.remove(key, levelKey);
         toRemove.push(levelKey);
@@ -3703,7 +3696,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
       that._clientSubscriptions.del(client.id, function() {
         Object.keys(subscriptions).forEach(function(key) {
           // TODO we need to remove these from the subMatcher every time.
-          var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
+          var levelKey = util.format("%s:%s", key, client.id);
           that._subMatcher.remove(key, levelKey);
           toRemove.push(levelKey);
         });
@@ -3712,7 +3705,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
           that._subscriptions.batch(toRemove.map(function(levelKey) {
             return {
               key: levelKey,
-              type: &#x27;del&#x27;
+              type: 'del'
             };
           }), function(err) {
             done(err, {});
@@ -3761,7 +3754,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.LevelUp.prototype.storeRetained = function (packet, cb) {
-  if (packet.payload.length &#x3e; 0) {
+  if (packet.payload.length &gt; 0) {
     this._retained.put(packet.topic, packet, cb);
   } else {
     this._retained.del(packet.topic, cb);
@@ -3786,7 +3779,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
 
   if (!client.clean) {
     Object.keys(client.subscriptions).forEach(function(key) {
-      if (client.subscriptions[key].qos &#x3e; 0) {
+      if (client.subscriptions[key].qos &gt; 0) {
         subscriptions[key] = client.subscriptions[key];
         subscriptions[key].ttl = that.options.ttl.subscriptions + now;
       }
@@ -3799,7 +3792,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
         ttl: that.options.ttl.subscriptions + now,
         qos: subscriptions[key].qos
       };
-      var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
+      var levelKey = util.format("%s:%s", key, client.id);
       that._subMatcher.add(key, levelKey);
       that._subscriptions.put(levelKey, sub);
     });
@@ -3821,24 +3814,24 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.LevelUp.prototype.streamOfflinePackets = function (client, cb, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var count = 0;
   var ended = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
 
-    if (client.clean || data.value.ttl &#x3c;= Date.now()) {
+    if (client.clean || data.value.ttl &lt;= Date.now()) {
       count++;
       that._offlinePackets.del(data.key, function() {
         count--;
 
 	// for testing
-        if (ended &#x26;&#x26; count === 0 &#x26;&#x26; done) {
+        if (ended &amp;&amp; count === 0 &amp;&amp; done) {
           done();
         }
       });
@@ -3847,23 +3840,23 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     }
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     ended = true;
 
     // for testing
-    if (count === 0 &#x26;&#x26; done) {
+    if (count === 0 &amp;&amp; done) {
       done();
     }
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   // for testing
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
+    stream.on("error", done);
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -3880,15 +3873,15 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.LevelUp.prototype.updateOfflinePacket = function (client, messageId, packet, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var found = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     if (data.value.messageId !== messageId) {
       return;
     }
@@ -3904,17 +3897,17 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
-    stream.on(&#x22;end&#x22;, function() {
+    stream.on("error", done);
+    stream.on("end", function() {
       if (!found) {
         done(null, packet);
       }
@@ -3940,7 +3933,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
 
   options = options || {};
   options.db = factory;
-  options.path = &#x22;RAM&#x22;;
+  options.path = "RAM";
   LevelUpPersistence.call(this, options, callback);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -4007,24 +4000,24 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     that.db = db;
     steed.parallel([
       function(cb) {
-        db.collection(&#x22;subscriptions&#x22;, function(err, coll) {
+        db.collection("subscriptions", function(err, coll) {
           that._subscriptions = coll;
           steed.parallel([
-            that._subscriptions.ensureIndex.bind(that._subscriptions, &#x22;client&#x22;),
-            that._subscriptions.ensureIndex.bind(that._subscriptions, { &#x22;added&#x22;: 1 }, { expireAfterSeconds: Math.round(that.options
+            that._subscriptions.ensureIndex.bind(that._subscriptions, "client"),
+            that._subscriptions.ensureIndex.bind(that._subscriptions, { "added": 1 }, { expireAfterSeconds: Math.round(that.options
 .ttl.subscriptions / 1000 )} )
           ], cb);
         });
       },
       function(cb) {
-        db.collection(&#x22;packets&#x22;, function(err, coll) {
+        db.collection("packets", function(err, coll) {
           if (err) {
             return cb(err);
           }
 
           that._packets = coll;
           steed.series([
-            that._packets.ensureIndex.bind(that._packets, &#x22;client&#x22;),
+            that._packets.ensureIndex.bind(that._packets, "client"),
             function(cb){
               // Check expiration indexes. If not exist, create; If exist but with different TTL, delete and recreate; Otherwise
 , do nothing.
@@ -4032,14 +4025,14 @@ server.on(&#x27;published&#x27;, function(packet, client) {
                 if (error) {
                   cb(error);
                 } else {
-                  var addedIndexKey = {&#x22;added&#x22;: 1};
-                  var addedIndexKeyString = &#x27;added_1&#x27;; // If addedIndex changes, this value should also be changed accordingly.
+                  var addedIndexKey = {"added": 1};
+                  var addedIndexKeyString = 'added_1'; // If addedIndex changes, this value should also be changed accordingly.
                   var addedIndexObj = colIndexes.filter(function(obj){
                     return obj.name == addedIndexKeyString;
                   });
                   var packetTTLInSeconds = Math.round(that.options.ttl.packets / 1000);
-                  if (addedIndexObj.length &#x3c;= 0 || addedIndexObj[0].expireAfterSeconds != packetTTLInSeconds) {
-                    if (addedIndexObj.length &#x3e; 0) {
+                  if (addedIndexObj.length &lt;= 0 || addedIndexObj[0].expireAfterSeconds != packetTTLInSeconds) {
+                    if (addedIndexObj.length &gt; 0) {
                       // Different index TTL, recreate index to make sure the TTL is set to the new number.
                       that._packets.dropIndex(addedIndexKeyString, function (error, result){
                         if (error) {
@@ -4062,9 +4055,9 @@ server.on(&#x27;published&#x27;, function(packet, client) {
         });
       },
       function(cb) {
-        db.collection(&#x22;retained&#x22;, function(err, coll) {
+        db.collection("retained", function(err, coll) {
           that._retained = coll;
-          that._retained.ensureIndex(&#x22;topic&#x22;, { unique: true }, cb);
+          that._retained.ensureIndex("topic", { unique: true }, cb);
         });
       }
     ], function(err) {
@@ -4115,7 +4108,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Mongo.prototype.close = function (cb) {
-  if (this.db &#x26;&#x26; this.options.autoClose !== false) {
+  if (this.db &amp;&amp; this.options.autoClose !== false) {
     this.db.close(cb);
   } else {
     cb();
@@ -4136,7 +4129,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <li>description and source-code<pre class="apidocCodePre">persistence.Mongo.prototype.deleteOfflinePacket = function (client, messageId, cb) {
   var toSearch = {
     client: client.id,
-    &#x27;packet.messageId&#x27;: messageId
+    'packet.messageId': messageId
   };
 
   this._packets.remove(toSearch, {w:1}, cb);
@@ -4154,20 +4147,20 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Mongo.prototype.lookupRetained = function (pattern, cb) {
-  var regexp = new RegExp(pattern.replace(/(#|\+)/, &#x22;.+&#x22;).replace(&#x27;\\&#x27;, &#x27;\\\\&#x27;));
+  var regexp = new RegExp(pattern.replace(/(#|\+)/, ".+").replace('\\', '\\\\'));
   var stream = this._retained.find({ topic: { $regex: regexp } }).stream();
   var matched = [];
   var matcher = new Matcher();
   matcher.add(pattern, true);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     cb(null, matched);
   });
 
-  stream.on(&#x22;data&#x22;, function(data) {
-    if (matcher.match(data.topic).size &#x3e; 0) {
+  stream.on("data", function(data) {
+    if (matcher.match(data.topic).size &gt; 0) {
       data.payload = data.payload.buffer;
       matched.push(data);
     }
@@ -4194,7 +4187,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
 
     subscriptions = (subscriptions || []).reduce(function(obj, sub) {
       // mongodb TTL is not precise
-      if (sub.added.getTime() + that.options.ttl.subscriptions &#x3e; now) {
+      if (sub.added.getTime() + that.options.ttl.subscriptions &gt; now) {
         obj[sub.topic] = {
           qos: sub.qos
         };
@@ -4244,29 +4237,29 @@ server.on(&#x27;published&#x27;, function(packet, client) {
   var that = this;
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
+    stream.on("error", done);
   }
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     started++;
 
     that._storePacket(data.client, packet, function(err) {
       if (err) {
-        return stream.emit(&#x22;error&#x22;, err);
+        return stream.emit("error", err);
       }
 
       // TODO handle the err in case of no callback
       completed++;
 
-      if (done &#x26;&#x26; ended &#x26;&#x26; started === completed) {
+      if (done &amp;&amp; ended &amp;&amp; started === completed) {
         done();
       }
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     ended = true;
-    if (done &#x26;&#x26; started === completed) {
+    if (done &amp;&amp; started === completed) {
       done();
     }
   });
@@ -4284,7 +4277,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Mongo.prototype.storeRetained = function (packet, cb) {
-  if (packet.payload.length &#x3e; 0) {
+  if (packet.payload.length &gt; 0) {
     this._retained.update(
       { topic: packet.topic },
       packet,
@@ -4323,14 +4316,14 @@ server.on(&#x27;published&#x27;, function(packet, client) {
 
   if (!client.clean) {
     subscriptions = Object.keys(client.subscriptions).filter(function(key) {
-      return client.subscriptions[key].qos &#x3e; 0;
+      return client.subscriptions[key].qos &gt; 0;
     });
 
     steed.each(subscriptions, function(key, cb) {
       that._subscriptions.findAndModify({
         client: client.id,
         topic: key
-      }, [[&#x27;date&#x27;, -1]], {
+      }, [['date', -1]], {
         $set: {
           client: client.id,
           topic: key,
@@ -4364,14 +4357,14 @@ server.on(&#x27;published&#x27;, function(packet, client) {
 
   // for testing
   if(done)
-    stream.on(&#x22;end&#x22;, done);
+    stream.on("end", done);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     // mongodb TTL is not precise
     // mongodb automaticly remove the packet
-    if (data.added.getTime() + that.options.ttl.packets &#x3e; now) {
+    if (data.added.getTime() + that.options.ttl.packets &gt; now) {
       data.packet.payload = data.packet.payload.buffer;
       cb(null, data.packet);
     }
@@ -4393,9 +4386,9 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <li>description and source-code<pre class="apidocCodePre">persistence.Mongo.prototype.updateOfflinePacket = function (client, messageId, packet, cb) {
   this._packets.update({
     client: client.id,
-    &#x27;packet.messageId&#x27;: messageId
+    'packet.messageId': messageId
   }, {
-    $set: { &#x27;packet.messageId&#x27;: packet.messageId }
+    $set: { 'packet.messageId': packet.messageId }
   }, {w:1}, function(err) {
     cb(err, packet);
   });
@@ -4441,11 +4434,11 @@ server.on(&#x27;published&#x27;, function(packet, client) {
       }
 
       var subs = JSON.parse(result);
-      if (!result || typeof subs !== &#x27;object&#x27;) {
+      if (!result || typeof subs !== 'object') {
         if (!retried) {
           setTimeout(fetchAndUpdateLocalSub.bind(null, key, unsubs, true, cb), 500);
         } else {
-          cb &#x26;&#x26; cb();
+          cb &amp;&amp; cb();
         }
         return;
       }
@@ -4459,7 +4452,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
   };
 
   var updateLocalSub = function(key, subs, unsubs) {
-    var xs = key.split(&#x22;:&#x22;);
+    var xs = key.split(":");
     var id = key.substr(xs[0].length + xs[1].length + 2);
 
     Object.keys(subs).forEach(function(sub) {
@@ -4480,38 +4473,38 @@ server.on(&#x27;published&#x27;, function(packet, client) {
       return;
     }
     var subsStream = that._client.scanStream({
-      match: &#x22;client:sub:*&#x22;,
+      match: "client:sub:*",
       count: 25000
     });
     var pipeline = that._client.pipeline();
     var total = 0;
     var done = null;
 
-    subsStream.on(&#x27;data&#x27;, function(moreKeys){
+    subsStream.on('data', function(moreKeys){
       total += moreKeys.length;
       moreKeys.map(function(k){
         pipeline.get(k, function(err, result) {
           if (err) {
-            done &#x26;&#x26; done(err);
+            done &amp;&amp; done(err);
             return;
           }
           var subs = JSON.parse(result);
-          if (!result || typeof subs !== &#x27;object&#x27;) {
-            done &#x26;&#x26; done();
+          if (!result || typeof subs !== 'object') {
+            done &amp;&amp; done();
             return;
           }
           updateLocalSub(k, subs);
-          done &#x26;&#x26; done();
+          done &amp;&amp; done();
         });
       });
     });
 
-    subsStream.on(&#x27;end&#x27;, function(){
+    subsStream.on('end', function(){
       if (total === 0) {
         return callback(null, that);
       }
       done = function() {
-        if (--total === 0 &#x26;&#x26; callback) {
+        if (--total === 0 &amp;&amp; callback) {
           callback(null, that);
           callback = null;
         }
@@ -4520,7 +4513,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     });
   });
 
-  this._pubSubClient.on(&#x22;message&#x22;, function(channel, message) {
+  this._pubSubClient.on("message", function(channel, message) {
     if (that._explicitlyClosed()) {
       return;
     }
@@ -4582,7 +4575,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype._cleanClient = function (client, done) {
   var that = this;
 
-  var key = &#x22;client:sub:&#x22; + client.id;
+  var key = "client:sub:" + client.id;
 
   this._client.get(key, function(err, subs) {
     subs = JSON.parse(subs) || {};
@@ -4596,7 +4589,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
         that._client.del(key, cb);
       },
       function(cb) {
-        that._client.del(&#x22;packets:&#x22; + client.id, cb);
+        that._client.del("packets:" + client.id, cb);
       }
     ], function(err) {
       if (done) {
@@ -4634,11 +4627,11 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype._storePacket = function (client, packet, pipeline, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
-  var packetKey = &#x22;packets:&#x22; + client + &#x22;:&#x22; + packet.messageId,
-      listKey = &#x22;packets:&#x22; + client;
+  var packetKey = "packets:" + client + ":" + packet.messageId,
+      listKey = "packets:" + client;
 
   pipeline.multi()
     .set(packetKey, JSON.stringify(packet))
@@ -4663,17 +4656,17 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.close = function (done) {
   if (this._closed) {
-    return done &#x26;&#x26; done();
+    return done &amp;&amp; done();
   }
   if (this._closing) {
-    return done &#x26;&#x26; this.once(&#x27;close&#x27;, done);
+    return done &amp;&amp; this.once('close', done);
   }
   this._closing = true;
 
   var that = this;
 
   steed.each([
-    &#x22;_client&#x22;, &#x22;_pubSubClient&#x22;
+    "_client", "_pubSubClient"
   ], function(client, cb) {
     if (that[client]) {
       that[client].quit(function quit(err) {
@@ -4685,7 +4678,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     }
   }, function() {
     that._closed = true;
-    that.emit(&#x27;close&#x27;);
+    that.emit('close');
     done();
   });
 }</pre></li>
@@ -4703,15 +4696,15 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.deleteOfflinePacket = function (client, messageId, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
-  var packetKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + messageId;
+  var packetKey = "packets:" + client.id + ":" + messageId;
 
   this._client.multi()
     .del(packetKey)
-    .lrem(&#x22;packets:&#x22; + client.id, 1, packetKey)
+    .lrem("packets:" + client.id, 1, packetKey)
     .exec(done);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -4728,12 +4721,12 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.lookupRetained = function (pattern, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
   var that = this;
   var matched = [];
   var match = function(topic, cb) {
-    that._client.hget(&#x22;retained&#x22;, topic, function(err, packet) {
+    that._client.hget("retained", topic, function(err, packet) {
       if (packet) {
 
         packet = JSON.parse(packet);
@@ -4746,14 +4739,14 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     });
   };
 
-  if (pattern.indexOf(&#x22;#&#x22;) &#x3e;= 0 || pattern.indexOf(&#x22;+&#x22;) &#x3e;= 0) {
+  if (pattern.indexOf("#") &gt;= 0 || pattern.indexOf("+") &gt;= 0) {
     var matcher = new Matcher();
     matcher.add(pattern, true);
 
-    this._client.hkeys(&#x22;retained&#x22;, function(err, topics) {
+    this._client.hkeys("retained", function(err, topics) {
       topics.sort();
       topics = topics.filter(function(topic) {
-        return matcher.match(topic).size &#x3e; 0;
+        return matcher.match(topic).size &gt; 0;
       });
 
       steed.each(topics, match, function(err) {
@@ -4780,13 +4773,13 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.lookupSubscriptions = function (client, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
   if (client.clean) {
     this._cleanClient(client, cb);
   }else{
-    var key = &#x22;client:sub:&#x22; + client.id;
+    var key = "client:sub:" + client.id;
     var subscriptions;
 
     var multi = this._client.multi();
@@ -4813,7 +4806,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.storeOfflinePacket = function (packet, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
@@ -4840,12 +4833,12 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.storeRetained = function (packet, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
-  if (packet.payload.length &#x3e; 0) {
-    this._client.hset(&#x22;retained&#x22;, packet.topic, JSON.stringify(packet), cb);
+  if (packet.payload.length &gt; 0) {
+    this._client.hset("retained", packet.topic, JSON.stringify(packet), cb);
   } else {
-    this._client.hdel(&#x22;retained&#x22;, packet.topic, cb);
+    this._client.hdel("retained", packet.topic, cb);
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -4862,24 +4855,24 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.storeSubscriptions = function (client, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
   if (client.clean) {
-    return cb &#x26;&#x26; cb();
+    return cb &amp;&amp; cb();
   }
-  var clientSubKey = &#x22;client:sub:&#x22; + client.id;
+  var clientSubKey = "client:sub:" + client.id;
   var that = this;
   var subscriptions = {};
 
   Object.keys(client.subscriptions).forEach(function(key) {
-    if (client.subscriptions[key].qos &#x3e; 0) {
+    if (client.subscriptions[key].qos &gt; 0) {
       subscriptions[key] = client.subscriptions[key];
     }
   });
 
   this._client.get(clientSubKey, function(err, currentSubs){
     var unsubs;
-    if( !err &#x26;&#x26; currentSubs ) {
+    if( !err &amp;&amp; currentSubs ) {
       currentSubs = JSON.parse(currentSubs);
       unsubs = Object.keys(currentSubs).filter(function (topic) {
         return !subscriptions[topic];
@@ -4919,18 +4912,18 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.streamOfflinePackets = function (client, cb, done) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
   var that = this,
-      listKey = &#x22;packets:&#x22; + client.id;
+      listKey = "packets:" + client.id;
 
   that._client.lrange(listKey, 0, 10000, function(err, results) {
 
     var total = results.length;
 
     // for testing
-    if(done &#x26;&#x26; total === 0)
+    if(done &amp;&amp; total === 0)
       done();
 
     function emit(key, result) {
@@ -4949,7 +4942,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     }
 
     results.reduce(fetch, that._client.multi()).exec(function(err,multiResults){
-      if(!multiResults &#x26;&#x26; done) {
+      if(!multiResults &amp;&amp; done) {
         done(err);
         return;
       }
@@ -4957,12 +4950,12 @@ server.on(&#x27;published&#x27;, function(packet, client) {
         var key = results[i];
         var result = multiResult[1];
         total --;
-        // If we don&#x27;t get result for given packet key. It means
+        // If we don't get result for given packet key. It means
         // that packet has expired. Just clean it from client packets key
         if(!result) {
           that._client.lrem(listKey, 0, key);
           // for testing
-          if(done &#x26;&#x26; total === 0)
+          if(done &amp;&amp; total === 0)
             done();
           return;
         }
@@ -4985,13 +4978,13 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">persistence.Redis.prototype.updateOfflinePacket = function (client, messageId, packet, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
-  var oldPacketKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + messageId;
-  var newPacketKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + packet.messageId;
-  var listKey = &#x22;packets:&#x22; + client.id;
+  var oldPacketKey = "packets:" + client.id + ":" + messageId;
+  var newPacketKey = "packets:" + client.id + ":" + packet.messageId;
+  var listKey = "packets:" + client.id;
 
   that._client.multi()
       .rename(oldPacketKey, newPacketKey)
@@ -5122,11 +5115,11 @@ server.on(&#x27;published&#x27;, function(packet, client) {
     <li>description and source-code<pre class="apidocCodePre">addUser = function (user, pass, authorizePublish, authorizeSubscribe, cb) {
   var that = this;
 
-  if (typeof authorizePublish === &#x22;function&#x22;) {
+  if (typeof authorizePublish === "function") {
     cb = authorizePublish;
     authorizePublish = null;
     authorizeSubscribe = null;
-  } else if (typeof authorizeSubscribe == &#x22;function&#x22;) {
+  } else if (typeof authorizeSubscribe == "function") {
     cb = authorizeSubscribe;
     authorizeSubscribe = null;
   }
@@ -5181,7 +5174,7 @@ server.on(&#x27;published&#x27;, function(packet, client) {
                        function(err, verdict) {
 
 if (err) {
-  logger.info({ username: packet.username }, &#x22;authentication error&#x22;);
+  logger.info({ username: packet.username }, "authentication error");
   client.connack({
     returnCode: 4
   });
@@ -5201,12 +5194,12 @@ if (err) {
   cb(null, minimatch(topic, that.users[client.user].authorizePublish || defaultGlob));
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-client.on(&#x22;subscribe&#x22;, function(packet) {
+client.on("subscribe", function(packet) {
   that.setUpTimer();
   that.handleSubscribe(packet);
 });
 
-client.on(&#x22;publish&#x22;, function(packet) {
+client.on("publish", function(packet) {
   that.setUpTimer();
   that.server.<span class="apidocCodeKeywordSpan">authorizePublish</span>(that, packet.topic, packet.payload, function(err, success
 ) {
@@ -5214,9 +5207,9 @@ client.on(&#x22;publish&#x22;, function(packet) {
   });
 });
 
-client.on(&#x22;unsubscribe&#x22;, function(packet) {
+client.on("unsubscribe", function(packet) {
   that.setUpTimer();
-  that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+  that.logger.info({ packet: packet }, "unsubscribe received");
 ...</pre></li>
     </ul>
 
@@ -5328,11 +5321,11 @@ function handleEachSub (s, cb) {
     <li>description and source-code<pre class="apidocCodePre">addUser = function (user, pass, authorizePublish, authorizeSubscribe, cb) {
   var that = this;
 
-  if (typeof authorizePublish === &#x22;function&#x22;) {
+  if (typeof authorizePublish === "function") {
     cb = authorizePublish;
     authorizePublish = null;
     authorizeSubscribe = null;
-  } else if (typeof authorizeSubscribe == &#x22;function&#x22;) {
+  } else if (typeof authorizeSubscribe == "function") {
     cb = authorizeSubscribe;
     authorizeSubscribe = null;
   }
@@ -5392,7 +5385,7 @@ function handleEachSub (s, cb) {
                        function(err, verdict) {
 
 if (err) {
-  logger.info({ username: packet.username }, &#x22;authentication error&#x22;);
+  logger.info({ username: packet.username }, "authentication error");
   client.connack({
     returnCode: 4
   });
@@ -5417,12 +5410,12 @@ if (err) {
   cb(null, minimatch(topic, that.users[client.user].authorizePublish || defaultGlob));
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-client.on(&#x22;subscribe&#x22;, function(packet) {
+client.on("subscribe", function(packet) {
   that.setUpTimer();
   that.handleSubscribe(packet);
 });
 
-client.on(&#x22;publish&#x22;, function(packet) {
+client.on("publish", function(packet) {
   that.setUpTimer();
   that.server.<span class="apidocCodeKeywordSpan">authorizePublish</span>(that, packet.topic, packet.payload, function(err, success
 ) {
@@ -5430,9 +5423,9 @@ client.on(&#x22;publish&#x22;, function(packet) {
   });
 });
 
-client.on(&#x22;unsubscribe&#x22;, function(packet) {
+client.on("unsubscribe", function(packet) {
   that.setUpTimer();
-  that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+  that.logger.info({ packet: packet }, "unsubscribe received");
 ...</pre></li>
     </ul>
 
@@ -5511,7 +5504,7 @@ function handleEachSub (s, cb) {
   var modernOpts = options.modernize(opts);
   var validationResult = options.validate(modernOpts);
 
-  if (validationResult.errors.length &#x3e; 0) {
+  if (validationResult.errors.length &gt; 0) {
     var errMessage = validationResult.errors[0].message;
     if (callback) {
       callback(new Error(errMessage));
@@ -5584,7 +5577,7 @@ function handleEachSub (s, cb) {
       }
       else {
         that.ascoltatore = ascoltatori.build(that.modernOpts.backend, done);
-        that.ascoltatore.on(&#x27;error&#x27;, that.emit.bind(that, &#x27;error&#x27;));
+        that.ascoltatore.on('error', that.emit.bind(that, 'error'));
       }
     },
 
@@ -5592,13 +5585,13 @@ function handleEachSub (s, cb) {
 
     function (done) {
       // REFACTOR: partially move to options.validate and options.populate?
-      var persistenceFactory = that.modernOpts.persistence &#x26;&#x26; that.modernOpts.persistence.factory;
+      var persistenceFactory = that.modernOpts.persistence &amp;&amp; that.modernOpts.persistence.factory;
       if (persistenceFactory) {
-        if (typeof persistenceFactory === &#x27;string&#x27;) {
+        if (typeof persistenceFactory === 'string') {
           var factoryName = persistenceFactory;
           persistenceFactory = persistence.getFactory(factoryName);
           if (!persistenceFactory) {
-            return callback(new Error(&#x27;No persistence factory found for &#x27; + factoryName ));
+            return callback(new Error('No persistence factory found for ' + factoryName ));
           }
         }
 
@@ -5631,14 +5624,14 @@ function handleEachSub (s, cb) {
 
       that.modernOpts.interfaces.forEach(function (iface) {
         var name = iface.type;
-        if (typeof name !== &#x22;string&#x22;) {
+        if (typeof name !== "string") {
           name = iface.type.name;
         }
         logInfo[name] = iface.port;
       });
 
-      that.logger.info(logInfo, &#x22;server started&#x22;);
-      that.emit(&#x22;ready&#x22;);
+      that.logger.info(logInfo, "server started");
+      that.emit("ready");
       done(null);
     }
   ], function(err, results){
@@ -5647,10 +5640,10 @@ function handleEachSub (s, cb) {
     }
   });
 
-  that.on(&#x22;clientConnected&#x22;, function(client) {
+  that.on("clientConnected", function(client) {
     if(that.modernOpts.publishNewClient) {
       that.publish({
-        topic: &#x22;$SYS/&#x22; + that.id + &#x22;/new/clients&#x22;,
+        topic: "$SYS/" + that.id + "/new/clients",
         payload: client.id ...</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 };
@@ -5662,12 +5655,12 @@ var settings = {
 
 var server = new mosca.<span class="apidocCodeKeywordSpan">Server</span>(settings);
 
-server.on(&#x27;clientConnected&#x27;, function(client) {
-    console.log(&#x27;client connected&#x27;, client.id);
+server.on('clientConnected', function(client) {
+    console.log('client connected', client.id);
 });
 
 // fired when a message is received
-server.on(&#x27;published&#x27;, function(packet, client) {
+server.on('published', function(packet, client) {
 ...</pre></li>
     </ul>
 
@@ -5713,7 +5706,7 @@ return server;
 function httpsFactory(iface, fallback, mosca) {
 var credentials = iface.credentials || fallback.credentials;
 if (credentials === undefined) {
-  throw new Error(&#x22;missing credentials for https server&#x22;);
+  throw new Error("missing credentials for https server");
 ...</pre></li>
     </ul>
 
@@ -5741,7 +5734,7 @@ if (credentials === undefined) {
                        function(err, verdict) {
 
 if (err) {
-  logger.info({ username: packet.username }, &#x22;authentication error&#x22;);
+  logger.info({ username: packet.username }, "authentication error");
   client.connack({
     returnCode: 4
   });
@@ -5765,16 +5758,16 @@ if (err) {
 
   function doForward(err, packet) {
     if (err) {
-return that.client &#x26;&#x26; that.client.emit(&#x27;error&#x27;, err);
+return that.client &amp;&amp; that.client.emit('error', err);
     }
 
     that.server.<span class="apidocCodeKeywordSpan">authorizeForward</span>(that, packet, function(err, authorized) {
 if (err) {
-  return that.client &#x26;&#x26; that.client.emit(&#x27;error&#x27;, err);
+  return that.client &amp;&amp; that.client.emit('error', err);
 }
 
 if (!authorized) {
-  that.logger.warn(packet, &#x22;Unauthorized Forward&#x22;);
+  that.logger.warn(packet, "Unauthorized Forward");
   return;
 ...</pre></li>
     </ul>
@@ -5792,12 +5785,12 @@ if (!authorized) {
   callback(null, true);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-client.on(&#x22;subscribe&#x22;, function(packet) {
+client.on("subscribe", function(packet) {
   that.setUpTimer();
   that.handleSubscribe(packet);
 });
 
-client.on(&#x22;publish&#x22;, function(packet) {
+client.on("publish", function(packet) {
   that.setUpTimer();
   that.server.<span class="apidocCodeKeywordSpan">authorizePublish</span>(that, packet.topic, packet.payload, function(err, success
 ) {
@@ -5805,9 +5798,9 @@ client.on(&#x22;publish&#x22;, function(packet) {
   });
 });
 
-client.on(&#x22;unsubscribe&#x22;, function(packet) {
+client.on("unsubscribe", function(packet) {
   that.setUpTimer();
-  that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+  that.logger.info({ packet: packet }, "unsubscribe received");
 ...</pre></li>
     </ul>
 
@@ -5875,20 +5868,20 @@ function handleEachSub (s, cb) {
   }
 
   steed.each(stuffToClose, function(toClose, cb) {
-    toClose.close(cb, &#x22;server closed&#x22;);
+    toClose.close(cb, "server closed");
   }, function() {
     that.ascoltatore.close(function () {
-      that.logger.info(&#x22;server closed&#x22;);
-      that.emit(&#x22;closed&#x22;);
+      that.logger.info("server closed");
+      that.emit("closed");
       callback();
     });
   });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -5920,19 +5913,19 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <li>example usage<pre class="apidocCodePre">...
 var that = this;
 
-logger.debug({ packet: packet }, &#x22;puback&#x22;);
+logger.debug({ packet: packet }, "puback");
 if (this.inflight[packet.messageId]) {
-  this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+  this.server.emit("delivered", this.inflight[packet.messageId], that);
   this.inflightCounter--;
   delete this.inflight[packet.messageId];
   this.server.<span class="apidocCodeKeywordSpan">deleteOfflinePacket</span>(this, packet.messageId, function(err) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+      return that.client &amp;&amp; that.client.emit("error", err);
     }
-    logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+    logger.debug({ packet: packet }, "cleaned offline packet");
   });
 } else {
-  logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+  logger.info({ packet: packet }, "no matching packet");
 ...</pre></li>
     </ul>
 
@@ -5954,14 +5947,14 @@ if (this.inflight[packet.messageId]) {
     sessionPresent: session_present ? true : false
   });
 
-  that.logger.info(&#x22;client connected&#x22;);
-  that.server.emit(&#x22;clientConnected&#x22;, that);
+  that.logger.info("client connected");
+  that.server.emit("clientConnected", that);
 
   // packets will be forward only if client.clean is false
   that.server.<span class="apidocCodeKeywordSpan">forwardOfflinePackets</span>(that);
 });
 
-client.on(&#x22;puback&#x22;, function(packet) {
+client.on("puback", function(packet) {
   that.setUpTimer();
   that.handlePuback(packet);
 });
@@ -5991,7 +5984,7 @@ that.server.persistClient(that);
 packet.subscriptions.forEach(function(sub, index) {
   if (authorized[index]) {
     that.server.<span class="apidocCodeKeywordSpan">forwardRetained</span>(sub.topic, that);
-    that.server.emit(&#x22;subscribed&#x22;, sub.topic, that);
+    that.server.emit("subscribed", sub.topic, that);
   } else {
     granted[index] = 0x80;
   }
@@ -6029,8 +6022,8 @@ if(!that._closed) {
   return this._dedupId++;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-              indexPlus &#x3e;= 0 &#x26;&#x26;
-              indexPlus &#x3c; 2
+              indexPlus &gt;= 0 &amp;&amp;
+              indexPlus &lt; 2
             )
           );
 
@@ -6040,7 +6033,7 @@ if (options._dedupId === undefined) {
   that._lastDedupId = options._dedupId;
 }
 
-if (qos &#x26;&#x26; options.messageId) {
+if (qos &amp;&amp; options.messageId) {
   that.server.updateOfflinePacket(that, options.messageId, packet, doForward);
 } else {
   doForward(null, packet);
@@ -6062,7 +6055,7 @@ if (qos &#x26;&#x26; options.messageId) {
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+  that.logger.info({ packet: packet }, "unsubscribe received");
   steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     if (err) {
       that.logger.warn(err);
@@ -6076,7 +6069,7 @@ if (qos &#x26;&#x26; options.messageId) {
   });
 });
 
-client.on(&#x22;disconnect&#x22;, function() {
+client.on("disconnect", function() {
 ...</pre></li>
     </ul>
 
@@ -6094,7 +6087,7 @@ client.on(&#x22;disconnect&#x22;, function() {
   var that = this;
   var logger = this.logger;
 
-  if (typeof client === &#x27;function&#x27;) {
+  if (typeof client === 'function') {
     callback = client;
     client = null;
   } else if (client) {
@@ -6124,7 +6117,7 @@ client.on(&#x22;disconnect&#x22;, function() {
 
   that.storePacket(newPacket, function() {
     if (that.closed) {
-      logger.debug({ packet: newPacket }, &#x22;not delivering because we are closed&#x22;);
+      logger.debug({ packet: newPacket }, "not delivering because we are closed");
       return;
     }
 
@@ -6134,12 +6127,12 @@ client.on(&#x22;disconnect&#x22;, function() {
       opts,
       function() {
         that.published(newPacket, client, function() {
-          if( newPacket.topic.indexOf( &#x27;$SYS&#x27; ) &#x3e;= 0 ) {
-            logger.trace({ packet: newPacket }, &#x22;published packet&#x22;);
+          if( newPacket.topic.indexOf( '$SYS' ) &gt;= 0 ) {
+            logger.trace({ packet: newPacket }, "published packet");
           } else {
-            logger.debug({ packet: newPacket }, &#x22;published packet&#x22;);
+            logger.debug({ packet: newPacket }, "published packet");
           }
-          that.emit(&#x22;published&#x22;, newPacket, client);
+          that.emit("published", newPacket, client);
           callback(undefined, newPacket);
         });
       }
@@ -6150,7 +6143,7 @@ client.on(&#x22;disconnect&#x22;, function() {
     }
 
     if (!authorized) {
-      that.logger.warn(packet, &#x22;Unauthorized Forward&#x22;);
+      that.logger.warn(packet, "Unauthorized Forward");
       return;
     }
 
@@ -6196,7 +6189,7 @@ client.on(&#x22;disconnect&#x22;, function() {
     <li>example usage<pre class="apidocCodePre">...
   this._buildForward();
 
-  client.on(&#x22;error&#x22;, nop);
+  client.on("error", nop);
 
   function completeConnection() {
 that.setUpTimer();
@@ -6269,7 +6262,7 @@ if (this.subscriptions[s.topic] === undefined) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">toString = function () {
-  return &#x27;mosca.Server&#x27;;
+  return 'mosca.Server';
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
     </ul>
@@ -6295,7 +6288,7 @@ if (this.subscriptions[s.topic] === undefined) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.<span class="apidocCodeKeywordSpan">updateOfflinePacket</span>(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -6348,7 +6341,7 @@ return server;
 function httpsFactory(iface, fallback, mosca) {
 var credentials = iface.credentials || fallback.credentials;
 if (credentials === undefined) {
-  throw new Error(&#x22;missing credentials for https server&#x22;);
+  throw new Error("missing credentials for https server");
 ...</pre></li>
     </ul>
 
@@ -6381,7 +6374,7 @@ if (credentials === undefined) {
                        function(err, verdict) {
 
 if (err) {
-  logger.info({ username: packet.username }, &#x22;authentication error&#x22;);
+  logger.info({ username: packet.username }, "authentication error");
   client.connack({
     returnCode: 4
   });
@@ -6410,16 +6403,16 @@ if (err) {
 
   function doForward(err, packet) {
     if (err) {
-return that.client &#x26;&#x26; that.client.emit(&#x27;error&#x27;, err);
+return that.client &amp;&amp; that.client.emit('error', err);
     }
 
     that.server.<span class="apidocCodeKeywordSpan">authorizeForward</span>(that, packet, function(err, authorized) {
 if (err) {
-  return that.client &#x26;&#x26; that.client.emit(&#x27;error&#x27;, err);
+  return that.client &amp;&amp; that.client.emit('error', err);
 }
 
 if (!authorized) {
-  that.logger.warn(packet, &#x22;Unauthorized Forward&#x22;);
+  that.logger.warn(packet, "Unauthorized Forward");
   return;
 ...</pre></li>
     </ul>
@@ -6442,12 +6435,12 @@ if (!authorized) {
   callback(null, true);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-client.on(&#x22;subscribe&#x22;, function(packet) {
+client.on("subscribe", function(packet) {
   that.setUpTimer();
   that.handleSubscribe(packet);
 });
 
-client.on(&#x22;publish&#x22;, function(packet) {
+client.on("publish", function(packet) {
   that.setUpTimer();
   that.server.<span class="apidocCodeKeywordSpan">authorizePublish</span>(that, packet.topic, packet.payload, function(err, success
 ) {
@@ -6455,9 +6448,9 @@ client.on(&#x22;publish&#x22;, function(packet) {
   });
 });
 
-client.on(&#x22;unsubscribe&#x22;, function(packet) {
+client.on("unsubscribe", function(packet) {
   that.setUpTimer();
-  that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+  that.logger.info({ packet: packet }, "unsubscribe received");
 ...</pre></li>
     </ul>
 
@@ -6535,20 +6528,20 @@ function handleEachSub (s, cb) {
   }
 
   steed.each(stuffToClose, function(toClose, cb) {
-    toClose.close(cb, &#x22;server closed&#x22;);
+    toClose.close(cb, "server closed");
   }, function() {
     that.ascoltatore.close(function () {
-      that.logger.info(&#x22;server closed&#x22;);
-      that.emit(&#x22;closed&#x22;);
+      that.logger.info("server closed");
+      that.emit("closed");
       callback();
     });
   });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -6585,19 +6578,19 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <li>example usage<pre class="apidocCodePre">...
 var that = this;
 
-logger.debug({ packet: packet }, &#x22;puback&#x22;);
+logger.debug({ packet: packet }, "puback");
 if (this.inflight[packet.messageId]) {
-  this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+  this.server.emit("delivered", this.inflight[packet.messageId], that);
   this.inflightCounter--;
   delete this.inflight[packet.messageId];
   this.server.<span class="apidocCodeKeywordSpan">deleteOfflinePacket</span>(this, packet.messageId, function(err) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+      return that.client &amp;&amp; that.client.emit("error", err);
     }
-    logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+    logger.debug({ packet: packet }, "cleaned offline packet");
   });
 } else {
-  logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+  logger.info({ packet: packet }, "no matching packet");
 ...</pre></li>
     </ul>
 
@@ -6624,14 +6617,14 @@ if (this.inflight[packet.messageId]) {
     sessionPresent: session_present ? true : false
   });
 
-  that.logger.info(&#x22;client connected&#x22;);
-  that.server.emit(&#x22;clientConnected&#x22;, that);
+  that.logger.info("client connected");
+  that.server.emit("clientConnected", that);
 
   // packets will be forward only if client.clean is false
   that.server.<span class="apidocCodeKeywordSpan">forwardOfflinePackets</span>(that);
 });
 
-client.on(&#x22;puback&#x22;, function(packet) {
+client.on("puback", function(packet) {
   that.setUpTimer();
   that.handlePuback(packet);
 });
@@ -6666,7 +6659,7 @@ that.server.persistClient(that);
 packet.subscriptions.forEach(function(sub, index) {
   if (authorized[index]) {
     that.server.<span class="apidocCodeKeywordSpan">forwardRetained</span>(sub.topic, that);
-    that.server.emit(&#x22;subscribed&#x22;, sub.topic, that);
+    that.server.emit("subscribed", sub.topic, that);
   } else {
     granted[index] = 0x80;
   }
@@ -6714,8 +6707,8 @@ if(!that._closed) {
   return this._dedupId++;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-              indexPlus &#x3e;= 0 &#x26;&#x26;
-              indexPlus &#x3c; 2
+              indexPlus &gt;= 0 &amp;&amp;
+              indexPlus &lt; 2
             )
           );
 
@@ -6725,7 +6718,7 @@ if (options._dedupId === undefined) {
   that._lastDedupId = options._dedupId;
 }
 
-if (qos &#x26;&#x26; options.messageId) {
+if (qos &amp;&amp; options.messageId) {
   that.server.updateOfflinePacket(that, options.messageId, packet, doForward);
 } else {
   doForward(null, packet);
@@ -6752,7 +6745,7 @@ if (qos &#x26;&#x26; options.messageId) {
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-  that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+  that.logger.info({ packet: packet }, "unsubscribe received");
   steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     if (err) {
       that.logger.warn(err);
@@ -6766,7 +6759,7 @@ if (qos &#x26;&#x26; options.messageId) {
   });
 });
 
-client.on(&#x22;disconnect&#x22;, function() {
+client.on("disconnect", function() {
 ...</pre></li>
     </ul>
 
@@ -6789,7 +6782,7 @@ client.on(&#x22;disconnect&#x22;, function() {
   var that = this;
   var logger = this.logger;
 
-  if (typeof client === &#x27;function&#x27;) {
+  if (typeof client === 'function') {
     callback = client;
     client = null;
   } else if (client) {
@@ -6819,7 +6812,7 @@ client.on(&#x22;disconnect&#x22;, function() {
 
   that.storePacket(newPacket, function() {
     if (that.closed) {
-      logger.debug({ packet: newPacket }, &#x22;not delivering because we are closed&#x22;);
+      logger.debug({ packet: newPacket }, "not delivering because we are closed");
       return;
     }
 
@@ -6829,12 +6822,12 @@ client.on(&#x22;disconnect&#x22;, function() {
       opts,
       function() {
         that.published(newPacket, client, function() {
-          if( newPacket.topic.indexOf( &#x27;$SYS&#x27; ) &#x3e;= 0 ) {
-            logger.trace({ packet: newPacket }, &#x22;published packet&#x22;);
+          if( newPacket.topic.indexOf( '$SYS' ) &gt;= 0 ) {
+            logger.trace({ packet: newPacket }, "published packet");
           } else {
-            logger.debug({ packet: newPacket }, &#x22;published packet&#x22;);
+            logger.debug({ packet: newPacket }, "published packet");
           }
-          that.emit(&#x22;published&#x22;, newPacket, client);
+          that.emit("published", newPacket, client);
           callback(undefined, newPacket);
         });
       }
@@ -6845,7 +6838,7 @@ client.on(&#x22;disconnect&#x22;, function() {
     }
 
     if (!authorized) {
-      that.logger.warn(packet, &#x22;Unauthorized Forward&#x22;);
+      that.logger.warn(packet, "Unauthorized Forward");
       return;
     }
 
@@ -6901,7 +6894,7 @@ client.on(&#x22;disconnect&#x22;, function() {
     <li>example usage<pre class="apidocCodePre">...
   this._buildForward();
 
-  client.on(&#x22;error&#x22;, nop);
+  client.on("error", nop);
 
   function completeConnection() {
 that.setUpTimer();
@@ -7018,7 +7011,7 @@ if (this.subscriptions[s.topic] === undefined) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.<span class="apidocCodeKeywordSpan">updateOfflinePacket</span>(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -7085,8 +7078,8 @@ if (this.subscriptions[s.topic] === undefined) {
 
   function doPublish(topic, value) {
     server.publish({
-      topic: &#x22;$SYS/&#x22; + server.id + &#x22;/&#x22; + topic,
-      payload: &#x22;&#x22; + value
+      topic: "$SYS/" + server.id + "/" + topic,
+      payload: "" + value
     });
   }
 
@@ -7108,28 +7101,28 @@ if (this.subscriptions[s.topic] === undefined) {
     stats.load.m15.maPublishedMessages.push(date, stats.lastIntervalPublishedMessages);
     stats.lastIntervalPublishedMessages = 0;
 
-    doPublish(&#x22;version&#x22;, version);
-    doPublish(&#x22;started_at&#x22;, server.stats.started.toISOString());
-    doPublish(&#x22;uptime&#x22;, mom.from(Date.now(), true));
-    doPublish(&#x22;clients/maximum&#x22;, stats.maxConnectedClients);
-    doPublish(&#x22;clients/connected&#x22;, stats.connectedClients);
-    doPublish(&#x22;publish/received&#x22;, stats.publishedMessages);
-    doPublish(&#x22;load/connections/15min&#x22;, stats.load.m15.connectedClients);
-    doPublish(&#x22;load/publish/received/15min&#x22;, stats.load.m15.publishedMessages);
-    doPublish(&#x22;load/connections/5min&#x22;, stats.load.m5.connectedClients);
-    doPublish(&#x22;load/publish/received/5min&#x22;, stats.load.m5.publishedMessages);
-    doPublish(&#x22;load/connections/1min&#x22;, stats.load.m1.connectedClients);
-    doPublish(&#x22;load/publish/received/1min&#x22;, stats.load.m1.publishedMessages);
-    doPublish(&#x22;memory/rss&#x22;, mem.rss);
-    doPublish(&#x22;memory/heap/current&#x22;, mem.heapUsed);
-    doPublish(&#x22;memory/heap/maximum&#x22;, mem.heapTotal);
+    doPublish("version", version);
+    doPublish("started_at", server.stats.started.toISOString());
+    doPublish("uptime", mom.from(Date.now(), true));
+    doPublish("clients/maximum", stats.maxConnectedClients);
+    doPublish("clients/connected", stats.connectedClients);
+    doPublish("publish/received", stats.publishedMessages);
+    doPublish("load/connections/15min", stats.load.m15.connectedClients);
+    doPublish("load/publish/received/15min", stats.load.m15.publishedMessages);
+    doPublish("load/connections/5min", stats.load.m5.connectedClients);
+    doPublish("load/publish/received/5min", stats.load.m5.publishedMessages);
+    doPublish("load/connections/1min", stats.load.m1.connectedClients);
+    doPublish("load/publish/received/1min", stats.load.m1.publishedMessages);
+    doPublish("memory/rss", mem.rss);
+    doPublish("memory/heap/current", mem.heapUsed);
+    doPublish("memory/heap/maximum", mem.heapTotal);
   }, 10 * 1000);
 
   events.forEach(function(event) {
     server.on(event.name, event);
   });
 
-  server.once(&#x22;closed&#x22;, function() {
+  server.once("closed", function() {
     clearInterval(timer);
 
     events.forEach(function(event) {
@@ -7161,8 +7154,8 @@ if (this.subscriptions[s.topic] === undefined) {
 
   function doPublish(topic, value) {
     server.publish({
-      topic: &#x22;$SYS/&#x22; + server.id + &#x22;/&#x22; + topic,
-      payload: &#x22;&#x22; + value
+      topic: "$SYS/" + server.id + "/" + topic,
+      payload: "" + value
     });
   }
 
@@ -7184,28 +7177,28 @@ if (this.subscriptions[s.topic] === undefined) {
     stats.load.m15.maPublishedMessages.push(date, stats.lastIntervalPublishedMessages);
     stats.lastIntervalPublishedMessages = 0;
 
-    doPublish(&#x22;version&#x22;, version);
-    doPublish(&#x22;started_at&#x22;, server.stats.started.toISOString());
-    doPublish(&#x22;uptime&#x22;, mom.from(Date.now(), true));
-    doPublish(&#x22;clients/maximum&#x22;, stats.maxConnectedClients);
-    doPublish(&#x22;clients/connected&#x22;, stats.connectedClients);
-    doPublish(&#x22;publish/received&#x22;, stats.publishedMessages);
-    doPublish(&#x22;load/connections/15min&#x22;, stats.load.m15.connectedClients);
-    doPublish(&#x22;load/publish/received/15min&#x22;, stats.load.m15.publishedMessages);
-    doPublish(&#x22;load/connections/5min&#x22;, stats.load.m5.connectedClients);
-    doPublish(&#x22;load/publish/received/5min&#x22;, stats.load.m5.publishedMessages);
-    doPublish(&#x22;load/connections/1min&#x22;, stats.load.m1.connectedClients);
-    doPublish(&#x22;load/publish/received/1min&#x22;, stats.load.m1.publishedMessages);
-    doPublish(&#x22;memory/rss&#x22;, mem.rss);
-    doPublish(&#x22;memory/heap/current&#x22;, mem.heapUsed);
-    doPublish(&#x22;memory/heap/maximum&#x22;, mem.heapTotal);
+    doPublish("version", version);
+    doPublish("started_at", server.stats.started.toISOString());
+    doPublish("uptime", mom.from(Date.now(), true));
+    doPublish("clients/maximum", stats.maxConnectedClients);
+    doPublish("clients/connected", stats.connectedClients);
+    doPublish("publish/received", stats.publishedMessages);
+    doPublish("load/connections/15min", stats.load.m15.connectedClients);
+    doPublish("load/publish/received/15min", stats.load.m15.publishedMessages);
+    doPublish("load/connections/5min", stats.load.m5.connectedClients);
+    doPublish("load/publish/received/5min", stats.load.m5.publishedMessages);
+    doPublish("load/connections/1min", stats.load.m1.connectedClients);
+    doPublish("load/publish/received/1min", stats.load.m1.publishedMessages);
+    doPublish("memory/rss", mem.rss);
+    doPublish("memory/heap/current", mem.heapUsed);
+    doPublish("memory/heap/maximum", mem.heapTotal);
   }, 10 * 1000);
 
   events.forEach(function(event) {
     server.on(event.name, event);
   });
 
-  server.once(&#x22;closed&#x22;, function() {
+  server.once("closed", function() {
     clearInterval(timer);
 
     events.forEach(function(event) {
@@ -7267,16 +7260,16 @@ if (this.subscriptions[s.topic] === undefined) {
 
   function doForward(err, packet) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x27;error&#x27;, err);
+      return that.client &amp;&amp; that.client.emit('error', err);
     }
 
     that.server.authorizeForward(that, packet, function(err, authorized) {
       if (err) {
-        return that.client &#x26;&#x26; that.client.emit(&#x27;error&#x27;, err);
+        return that.client &amp;&amp; that.client.emit('error', err);
       }
 
       if (!authorized) {
-        that.logger.warn(packet, &#x22;Unauthorized Forward&#x22;);
+        that.logger.warn(packet, "Unauthorized Forward");
         return;
       }
 
@@ -7289,19 +7282,19 @@ if (this.subscriptions[s.topic] === undefined) {
   }
 
   this.forward = function(topic, payload, options, subTopic, qos, cb) {
-    if (options._dedupId &#x3c;= that._lastDedupId) {
+    if (options._dedupId &lt;= that._lastDedupId) {
       return;
     }
 
-    that.logger.trace({ topic: topic }, &#x22;delivering message&#x22;);
+    that.logger.trace({ topic: topic }, "delivering message");
 
     var sub = that.subscriptions[subTopic],
-        indexWildcard = subTopic.indexOf(&#x22;#&#x22;),
-        indexPlus = subTopic.indexOf(&#x22;+&#x22;),
+        indexWildcard = subTopic.indexOf("#"),
+        indexPlus = subTopic.indexOf("+"),
         forward = true,
         newId = this.nextId++;
 
-    // Make sure &#x27;nextId&#x27; always fits in a uint8 (http://git.io/vmgKI).
+    // Make sure 'nextId' always fits in a uint8 (http://git.io/vmgKI).
     this.nextId %= 65536;
 
     var packet = {
@@ -7316,11 +7309,11 @@ if (this.subscriptions[s.topic] === undefined) {
     }
 
     if (that._closed || that._closing) {
-      that.logger.debug({ packet: packet }, &#x22;trying to send a packet to a disconnected client&#x22;);
+      that.logger.debug({ packet: packet }, "trying to send a packet to a disconnected client");
       forward = false;
-    } else if (that.inflightCounter &#x3e;= that.server.opts.maxInflightMessages) {
-      that.logger.warn(&#x22;too many inflight packets, closing&#x22;);
-      that.close(null, &#x22;too many inflight packets&#x22;);
+    } else if (that.inflightCounter &gt;= that.server.opts.maxInflightMessages) {
+      that.logger.warn("too many inflight packets, closing");
+      that.close(null, "too many inflight packets");
       forward = false;
     }
 
@@ -7329,13 +7322,13 @@ if (this.subscriptions[s.topic] === undefined) {
     }
 
     // skip delivery of messages in $SYS for wildcards
-    forward = forward &#x26;&#x26;
-              ! ( topic.indexOf(&#x27;$SYS&#x27;) &#x3e;= 0 &#x26;&#x26;
+    forward = forward &amp;&amp;
+              ! ( topic.indexOf('$SYS') &gt;= 0 &amp;&amp;
                   (
-                    indexWildcard &#x3e;= 0 &#x26;&#x26;
-                    indexWildcard &#x3c; 2 ||
-                    indexPlus &#x3e;= 0 &#x26;&#x26;
-                    indexPlus &#x3c; 2
+                    indexWildcard &gt;= 0 &amp;&amp;
+                    indexWildcard &lt; 2 ||
+                    indexPlus &gt;= 0 &amp;&amp;
+                    indexPlus &lt; 2
                   )
                 );
 
@@ -7345,7 +7338,7 @@ if (this.subscriptions[s.topic] === undefined) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.updateOfflinePacket(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -7363,7 +7356,7 @@ Client.prototype._setup = function() {
 
   this.<span class="apidocCodeKeywordSpan">_buildForward</span>();
 
-  client.on(&#x22;error&#x22;, nop);
+  client.on("error", nop);
 
   function completeConnection() {
 that.setUpTimer();
@@ -7386,7 +7379,7 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
 
   this._buildForward();
 
-  client.on(&#x22;error&#x22;, nop);
+  client.on("error", nop);
 
   function completeConnection() {
     that.setUpTimer();
@@ -7399,40 +7392,40 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
         sessionPresent: session_present ? true : false
       });
 
-      that.logger.info(&#x22;client connected&#x22;);
-      that.server.emit(&#x22;clientConnected&#x22;, that);
+      that.logger.info("client connected");
+      that.server.emit("clientConnected", that);
 
       // packets will be forward only if client.clean is false
       that.server.forwardOfflinePackets(that);
     });
 
-    client.on(&#x22;puback&#x22;, function(packet) {
+    client.on("puback", function(packet) {
       that.setUpTimer();
       that.handlePuback(packet);
     });
 
-    client.on(&#x22;pingreq&#x22;, function() {
-      that.logger.debug(&#x22;pingreq&#x22;);
+    client.on("pingreq", function() {
+      that.logger.debug("pingreq");
       that.setUpTimer();
       that.handlePingreq();
       that.connection.pingresp();
     });
 
-    client.on(&#x22;subscribe&#x22;, function(packet) {
+    client.on("subscribe", function(packet) {
       that.setUpTimer();
       that.handleSubscribe(packet);
     });
 
-    client.on(&#x22;publish&#x22;, function(packet) {
+    client.on("publish", function(packet) {
       that.setUpTimer();
       that.server.authorizePublish(that, packet.topic, packet.payload, function(err, success) {
         that.handleAuthorizePublish(err, success, packet);
       });
     });
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
       that.setUpTimer();
-      that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+      that.logger.info({ packet: packet }, "unsubscribe received");
       steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
         if (err) {
           that.logger.warn(err);
@@ -7446,9 +7439,9 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
       });
     });
 
-    client.on(&#x22;disconnect&#x22;, function() {
-      that.logger.debug(&#x22;disconnect requested&#x22;);
-      that.close(null, &#x22;disconnect request&#x22;);
+    client.on("disconnect", function() {
+      that.logger.debug("disconnect requested");
+      that.close(null, "disconnect request");
     });
 
     function handleError(err) {
@@ -7456,15 +7449,15 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
       that.onNonDisconnectClose(err.message);
     }
 
-    client.on(&#x22;error&#x22;, handleError);
-    client.removeListener(&#x22;error&#x22;, nop);
+    client.on("error", handleError);
+    client.removeListener("error", nop);
 
-    client.on(&#x22;close&#x22;, function() {
-      that.onNonDisconnectClose(&#x22;close&#x22;);
+    client.on("close", function() {
+      that.onNonDisconnectClose("close");
     });
   }
 
-  client.once(&#x22;connect&#x22;, function(packet) {
+  client.once("connect", function(packet) {
     that.handleConnect(packet, completeConnection);
   });
 }</pre></li>
@@ -7507,7 +7500,7 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
   var that = this;
 
   if (this.id) {
-    that.logger.debug(&#x22;closing client, reason: &#x22; + reason);
+    that.logger.debug("closing client, reason: " + reason);
 
     if (this.timer) {
       this.timer.clear();
@@ -7517,11 +7510,11 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
   var cleanup = function() {
     that._closed = true;
 
-    that.logger.info(&#x22;closed&#x22;);
+    that.logger.info("closed");
     that.connection.removeAllListeners();
     // ignore all errors after disconnection
-    that.connection.on(&#x22;error&#x22;, function() {});
-    that.server.emit(&#x22;clientDisconnected&#x22;, that, reason);
+    that.connection.on("error", function() {});
+    that.server.emit("clientDisconnected", that, reason);
 
     callback();
   };
@@ -7549,9 +7542,9 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -7579,8 +7572,8 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   var that = this;
 
   if (err || !success) {
-    if (!this._closed &#x26;&#x26; !this._closing) {
-      that.close(null, (err &#x26;&#x26; err.message) || &#x22;publish not authorized&#x22;);
+    if (!this._closed &amp;&amp; !this._closing) {
+      that.close(null, (err &amp;&amp; err.message) || "publish not authorized");
     }
     return;
   }
@@ -7590,7 +7583,7 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   }
 
   that.server.publish(packet, that, function() {
-    if (packet.qos === 1 &#x26;&#x26; !(that._closed || that._closing)) {
+    if (packet.qos === 1 &amp;&amp; !(that._closed || that._closing)) {
       that.connection.puback({
         messageId: packet.messageId
       });
@@ -7602,16 +7595,16 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   that.handleSubscribe(packet);
 });
 
-client.on(&#x22;publish&#x22;, function(packet) {
+client.on("publish", function(packet) {
   that.setUpTimer();
   that.server.authorizePublish(that, packet.topic, packet.payload, function(err, success) {
     that.<span class="apidocCodeKeywordSpan">handleAuthorizePublish</span>(err, success, packet);
   });
 });
 
-client.on(&#x22;unsubscribe&#x22;, function(packet) {
+client.on("unsubscribe", function(packet) {
   that.setUpTimer();
-  that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+  that.logger.info({ packet: packet }, "unsubscribe received");
   steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
 ...</pre></li>
     </ul>
@@ -7632,7 +7625,7 @@ client.on(&#x22;unsubscribe&#x22;, function(packet) {
   }
 
   if (!success) {
-    this.logger.info({ topic: s.topic }, &#x22;subscribe not authorized&#x22;);
+    this.logger.info({ topic: s.topic }, "subscribe not authorized");
     cb(null, false);
     return;
   }
@@ -7654,7 +7647,7 @@ client.on(&#x22;unsubscribe&#x22;, function(packet) {
           cb(err);
           return;
         }
-        that.logger.info({ topic: s.topic, qos: s.qos }, &#x22;subscribed to topic&#x22;);
+        that.logger.info({ topic: s.topic, qos: s.qos }, "subscribed to topic");
         //that.subscriptions[s.topic] = { qos: s.qos, handler: handler };
         cb(null, true);
       }
@@ -7704,13 +7697,13 @@ function handleEachSub (s, cb) {
   // Otherwise, the connection should be rejected.
   if(!this.id) {
 
-    if(packet.protocolVersion == 4 &#x26;&#x26; packet.clean) {
+    if(packet.protocolVersion == 4 &amp;&amp; packet.clean) {
 
       this.id = uuid.v4();
     }
     else {
 
-      logger.info(&#x22;identifier rejected&#x22;);
+      logger.info("identifier rejected");
       client.connack({
         returnCode: 2
       });
@@ -7724,7 +7717,7 @@ function handleEachSub (s, cb) {
                            function(err, verdict) {
 
     if (err) {
-      logger.info({ username: packet.username }, &#x22;authentication error&#x22;);
+      logger.info({ username: packet.username }, "authentication error");
       client.connack({
         returnCode: 4
       });
@@ -7733,7 +7726,7 @@ function handleEachSub (s, cb) {
     }
 
     if (!verdict) {
-      logger.info({ username: packet.username }, &#x22;authentication denied&#x22;);
+      logger.info({ username: packet.username }, "authentication denied");
       client.connack({
         returnCode: 5
       });
@@ -7747,7 +7740,7 @@ function handleEachSub (s, cb) {
     that.clean = packet.clean;
 
     if (that.id in that.server.clients){
-      that.server.clients[that.id].close(completeConnection, &#x22;new connection request&#x22;);
+      that.server.clients[that.id].close(completeConnection, "new connection request");
     } else {
       completeConnection();
     }
@@ -7755,12 +7748,12 @@ function handleEachSub (s, cb) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-   client.on(&#x22;close&#x22;, function() {
-     that.onNonDisconnectClose(&#x22;close&#x22;);
+   client.on("close", function() {
+     that.onNonDisconnectClose("close");
    });
  }
 
- client.once(&#x22;connect&#x22;, function(packet) {
+ client.once("connect", function(packet) {
    that.<span class="apidocCodeKeywordSpan">handleConnect</span>(packet, completeConnection);
  });
 };
@@ -7783,21 +7776,21 @@ function handleEachSub (s, cb) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">handlePingreq = function () {
   var that = this;
-  that.server.emit(&#x22;pingreq&#x22;, that);
+  that.server.emit("pingreq", that);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
   that.setUpTimer();
   that.handlePuback(packet);
 });
 
-client.on(&#x22;pingreq&#x22;, function() {
-  that.logger.debug(&#x22;pingreq&#x22;);
+client.on("pingreq", function() {
+  that.logger.debug("pingreq");
   that.setUpTimer();
   that.<span class="apidocCodeKeywordSpan">handlePingreq</span>();
   that.connection.pingresp();
 });
 
-client.on(&#x22;subscribe&#x22;, function(packet) {
+client.on("subscribe", function(packet) {
   that.setUpTimer();
   that.handleSubscribe(packet);
 });
@@ -7817,19 +7810,19 @@ client.on(&#x22;subscribe&#x22;, function(packet) {
   var logger = this.logger;
   var that = this;
 
-  logger.debug({ packet: packet }, &#x22;puback&#x22;);
+  logger.debug({ packet: packet }, "puback");
   if (this.inflight[packet.messageId]) {
-    this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+    this.server.emit("delivered", this.inflight[packet.messageId], that);
     this.inflightCounter--;
     delete this.inflight[packet.messageId];
     this.server.deleteOfflinePacket(this, packet.messageId, function(err) {
       if (err) {
-        return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+        return that.client &amp;&amp; that.client.emit("error", err);
       }
-      logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+      logger.debug({ packet: packet }, "cleaned offline packet");
     });
   } else {
-    logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+    logger.info({ packet: packet }, "no matching packet");
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
@@ -7838,13 +7831,13 @@ client.on(&#x22;subscribe&#x22;, function(packet) {
   that.server.forwardOfflinePackets(that);
 });
 
-client.on(&#x22;puback&#x22;, function(packet) {
+client.on("puback", function(packet) {
   that.setUpTimer();
   that.<span class="apidocCodeKeywordSpan">handlePuback</span>(packet);
 });
 
-client.on(&#x22;pingreq&#x22;, function() {
-  that.logger.debug(&#x22;pingreq&#x22;);
+client.on("pingreq", function() {
+  that.logger.debug("pingreq");
   that.setUpTimer();
   that.handlePingreq();
   that.connection.pingresp();
@@ -7863,7 +7856,7 @@ client.on(&#x22;pingreq&#x22;, function() {
     <li>description and source-code<pre class="apidocCodePre">handleSubscribe = function (packet) {
   var that = this, server = this.server, logger = this.logger;
 
-  logger.debug({ packet: packet }, &#x22;subscribe received&#x22;);
+  logger.debug({ packet: packet }, "subscribe received");
 
   var granted = calculateGranted(this, packet);
 
@@ -7879,7 +7872,7 @@ client.on(&#x22;pingreq&#x22;, function() {
     packet.subscriptions.forEach(function(sub, index) {
       if (authorized[index]) {
         that.server.forwardRetained(sub.topic, that);
-        that.server.emit(&#x22;subscribed&#x22;, sub.topic, that);
+        that.server.emit("subscribed", sub.topic, that);
       } else {
         granted[index] = 0x80;
       }
@@ -7899,12 +7892,12 @@ client.on(&#x22;pingreq&#x22;, function() {
   that.connection.pingresp();
 });
 
-client.on(&#x22;subscribe&#x22;, function(packet) {
+client.on("subscribe", function(packet) {
   that.setUpTimer();
   that.<span class="apidocCodeKeywordSpan">handleSubscribe</span>(packet);
 });
 
-client.on(&#x22;publish&#x22;, function(packet) {
+client.on("publish", function(packet) {
   that.setUpTimer();
   that.server.authorizePublish(that, packet.topic, packet.payload, function(err, success) {
     that.handleAuthorizePublish(err, success, packet);
@@ -7929,7 +7922,7 @@ client.on(&#x22;publish&#x22;, function(packet) {
   }
 
   if (that.will) {
-    logger.info({ packet: will }, &#x22;delivering last will&#x22;);
+    logger.info({ packet: will }, "delivering last will");
     setImmediate(function() {
       that.server.authorizePublish(that, will.topic, will.payload, function(err, success) {
         that.handleAuthorizePublish(err, success, will);
@@ -7940,9 +7933,9 @@ client.on(&#x22;publish&#x22;, function(packet) {
   this.close(null, reason);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-client.on(&#x22;disconnect&#x22;, function() {
-  that.logger.debug(&#x22;disconnect requested&#x22;);
-  that.close(null, &#x22;disconnect request&#x22;);
+client.on("disconnect", function() {
+  that.logger.debug("disconnect requested");
+  that.close(null, "disconnect request");
 });
 
 function handleError(err) {
@@ -7950,11 +7943,11 @@ function handleError(err) {
   that.<span class="apidocCodeKeywordSpan">onNonDisconnectClose</span>(err.message);
 }
 
-client.on(&#x22;error&#x22;, handleError);
-client.removeListener(&#x22;error&#x22;, nop);
+client.on("error", handleError);
+client.removeListener("error", nop);
 
-client.on(&#x22;close&#x22;, function() {
-  that.onNonDisconnectClose(&#x22;close&#x22;);
+client.on("close", function() {
+  that.onNonDisconnectClose("close");
 ...</pre></li>
     </ul>
 
@@ -7968,21 +7961,21 @@ client.on(&#x22;close&#x22;, function() {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">setUpTimer = function () {
-  if (this.keepalive &#x3c;= 0) {
+  if (this.keepalive &lt;= 0) {
     return;
   }
 
   var timeout = this.keepalive * 1000 * 3 / 2;
   var that = this;
 
-  this.logger.debug({ timeout: timeout }, &#x22;setting keepalive timeout&#x22;);
+  this.logger.debug({ timeout: timeout }, "setting keepalive timeout");
 
   if (this.timer) {
     this.timer.reschedule(timeout);
   } else {
     this.timer = retimer(function keepaliveTimeout() {
-      that.logger.info(&#x22;keepalive timeout&#x22;);
-      that.onNonDisconnectClose(&#x22;keepalive timeout&#x22;);
+      that.logger.info("keepalive timeout");
+      that.onNonDisconnectClose("keepalive timeout");
     }, timeout);
   }
 }</pre></li>
@@ -7991,7 +7984,7 @@ client.on(&#x22;close&#x22;, function() {
 
   this._buildForward();
 
-  client.on(&#x22;error&#x22;, nop);
+  client.on("error", nop);
 
   function completeConnection() {
 that.<span class="apidocCodeKeywordSpan">setUpTimer</span>();
@@ -8018,7 +8011,7 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
   var that = this;
   var sub = that.subscriptions[topic];
   if (!sub || !sub.handler) {
-    that.server.emit(&#x22;unsubscribed&#x22;, topic, that);
+    that.server.emit("unsubscribed", topic, that);
     return cb();
   }
 
@@ -8030,8 +8023,8 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
 
     if (!that._closing || that.clean) {
       delete that.subscriptions[topic];
-      that.logger.info({ topic: topic }, &#x22;unsubscribed&#x22;);
-      that.server.emit(&#x22;unsubscribed&#x22;, topic, that);
+      that.logger.info({ topic: topic }, "unsubscribed");
+      that.server.emit("unsubscribed", topic, that);
     }
 
     cb();
@@ -8056,12 +8049,12 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function buildServe(iface, mosca) {
   var mounts = [];
-  var logger = mosca.logger.child({ service: &#x27;http bundle&#x27; });
+  var logger = mosca.logger.child({ service: 'http bundle' });
 
   if (iface.bundle) {
     mounts.push(st({
-      path: __dirname + &#x22;/../public&#x22;,
-      url: &#x22;/&#x22;,
+      path: __dirname + "/../public",
+      url: "/",
       dot: true,
       index: false,
       passthrough: true
@@ -8072,8 +8065,8 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     mounts.push(st({
       path: iface.static,
       dot: true,
-      url: &#x22;/&#x22;,
-      index: &#x22;index.html&#x22;,
+      url: "/",
+      index: "index.html",
       passthrough: true
     }));
   }
@@ -8084,7 +8077,7 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
 
     var cmounts = [].concat(mounts);
 
-    res.on(&#x27;finish&#x27;, function() {
+    res.on('finish', function() {
       logger.info({ res: res });
     });
 
@@ -8095,7 +8088,7 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
         mount(req, res, handle);
       } else {
         res.statusCode = 404;
-        res.end(&#x22;Not Found\n&#x22;);
+        res.end("Not Found\n");
       }
     }
 
@@ -8155,7 +8148,7 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     <li>description and source-code<pre class="apidocCodePre">function httpsFactory(iface, fallback, mosca) {
   var credentials = iface.credentials || fallback.credentials;
   if (credentials === undefined) {
-    throw new Error(&#x22;missing credentials for https server&#x22;);
+    throw new Error("missing credentials for https server");
   }
 
   if (credentials.keyPath) {
@@ -8208,7 +8201,7 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     <li>description and source-code<pre class="apidocCodePre">function mqttsFactory(iface, fallback, mosca) {
   var credentials = iface.credentials || fallback.credentials;
   if (credentials === undefined) {
-    throw new Error(&#x22;missing credentials for mqtts server&#x22;);
+    throw new Error("missing credentials for mqtts server");
   }
 
   if (credentials.keyPath) {
@@ -8242,10 +8235,10 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">function serverFactory(iface, fallback, mosca) {
   var factories = {
-    &#x22;mqtt&#x22;:  mqttFactory,
-    &#x22;mqtts&#x22;: mqttsFactory,
-    &#x22;http&#x22;:  httpFactory,
-    &#x22;https&#x22;: httpsFactory,
+    "mqtt":  mqttFactory,
+    "mqtts": mqttsFactory,
+    "http":  httpFactory,
+    "https": httpsFactory,
   };
 
   var type = iface.type; // no fallback
@@ -8276,8 +8269,8 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     maxConnections: 10000000,
     backend: {
       json: false,
-      wildcardOne: &#x27;+&#x27;,
-      wildcardSome: &#x27;#&#x27;
+      wildcardOne: '+',
+      wildcardSome: '#'
     },
     stats: false,
     publishNewClient: true,
@@ -8285,8 +8278,8 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     publishSubscriptions: true,
     maxInflightMessages: 1024,
     logger: {
-      name: &#x22;mosca&#x22;,
-      level: &#x22;warn&#x22;,
+      name: "mosca",
+      level: "warn",
       serializers: {
         client: serializers.clientSerializer,
         packet: serializers.packetSerializer,
@@ -8312,12 +8305,12 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
   return {
     host: null,
     interfaces: [
-      { type: &#x22;mqtt&#x22;, port: 1883, maxConnections: 10000000 }
+      { type: "mqtt", port: 1883, maxConnections: 10000000 }
     ],
     backend: {
       json: false,
-      wildcardOne: &#x27;+&#x27;,
-      wildcardSome: &#x27;#&#x27;
+      wildcardOne: '+',
+      wildcardSome: '#'
     },
     stats: false,
     publishNewClient: true,
@@ -8325,8 +8318,8 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     publishSubscriptions: true,
     maxInflightMessages: 1024,
     logger: {
-      name: &#x22;mosca&#x22;,
-      level: &#x22;warn&#x22;,
+      name: "mosca",
+      level: "warn",
       serializers: {
         client: serializers.clientSerializer,
         packet: serializers.packetSerializer,
@@ -8354,15 +8347,15 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
 
   var modernized = {};
 
-  // &#x22;plain copyable&#x22; conserved options
+  // "plain copyable" conserved options
   var conserved = [
-    &#x22;id&#x22;,
-    &#x22;host&#x22;,
-    &#x22;maxInflightMessages&#x22;,
-    &#x22;stats&#x22;,
-    &#x22;publishNewClient&#x22;,
-    &#x22;publishClientDisconnect&#x22;,
-    &#x22;publishSubscriptions&#x22;
+    "id",
+    "host",
+    "maxInflightMessages",
+    "stats",
+    "publishNewClient",
+    "publishClientDisconnect",
+    "publishSubscriptions"
   ];
 
   // copy all conserved options
@@ -8373,42 +8366,42 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
   });
 
   // TODO: copy `backend` carefully
-  if (legacy.hasOwnProperty(&#x27;backend&#x27;)) {
+  if (legacy.hasOwnProperty('backend')) {
     modernized.backend = legacy.backend;
   }
 
   // TODO: copy `ascoltatore` carefully
-  if (legacy.hasOwnProperty(&#x27;ascoltatore&#x27;)) {
+  if (legacy.hasOwnProperty('ascoltatore')) {
     modernized.ascoltatore = legacy.ascoltatore;
   }
 
   // TODO: copy `persistence` carefully
-  if (legacy.hasOwnProperty(&#x27;persistence&#x27;)) {
+  if (legacy.hasOwnProperty('persistence')) {
     modernized.persistence = legacy.persistence;
   }
 
   // TODO: copy `logger` carefully
-  if (legacy.hasOwnProperty(&#x27;logger&#x27;)) {
+  if (legacy.hasOwnProperty('logger')) {
     modernized.logger = legacy.logger;
   }
 
   // construct `credentials`
-  if (legacy.hasOwnProperty(&#x27;credentials&#x27;)) {
+  if (legacy.hasOwnProperty('credentials')) {
     // copy as is
     modernized.credentials = clone(legacy.credentials);
-  } else if (legacy.hasOwnProperty(&#x27;secure&#x27;)) {
+  } else if (legacy.hasOwnProperty('secure')) {
     // construct from `secure`
     modernized.credentials = {};
-    if (legacy.secure.hasOwnProperty(&#x27;keyPath&#x27;)) {
+    if (legacy.secure.hasOwnProperty('keyPath')) {
       modernized.credentials.keyPath = legacy.secure.keyPath;
     }
-    if (legacy.secure.hasOwnProperty(&#x27;certPath&#x27;)) {
+    if (legacy.secure.hasOwnProperty('certPath')) {
       modernized.credentials.certPath = legacy.secure.certPath;
     }
   } // else no credentials were provided
 
   // construct `interfaces`
-  if (legacy.hasOwnProperty(&#x27;interfaces&#x27;)) {
+  if (legacy.hasOwnProperty('interfaces')) {
     // cloning
     modernized.interfaces = clone(legacy.interfaces);
   } else {
@@ -8416,15 +8409,15 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     modernized.interfaces = [];
 
     // translate mqtt options
-    var mqtt_enabled = !legacy.onlyHttp &#x26;&#x26; (typeof legacy.secure === &#x27;undefined&#x27; || legacy.allowNonSecure);
+    var mqtt_enabled = !legacy.onlyHttp &amp;&amp; (typeof legacy.secure === 'undefined' || legacy.allowNonSecure);
     if (mqtt_enabled) {
-      var mqtt_interface = { type: &#x27;mqtt&#x27; };
+      var mqtt_interface = { type: 'mqtt' };
 
-      if (legacy.hasOwnProperty(&#x27;port&#x27;)) {
+      if (legacy.hasOwnProperty('port')) {
         mqtt_interface.port = legacy.port;
       }
 
-      if (legacy.hasOwnProperty(&#x27;maxConnections&#x27;)) {
+      if (legacy.hasOwnProperty('maxConnections')) {
         mqtt_interface.maxConnections = legacy.maxConnections;
       }
 
@@ -8432,11 +8425,11 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     }
 
     // translate mqtts options
-    var mqtts_enabled = !legacy.onlyHttp &#x26;&#x26; legacy.secure;
+    var mqtts_enabled = !legacy.onlyHttp &amp;&amp; legacy.secure;
     if (mqtts_enabled) {
-      var mqtts_interface = { type: &#x27;mqtts&#x27; };
+      var mqtts_interface = { type: 'mqtts' };
 
-      if (legacy.secure.hasOwnProperty(&#x27;port&#x27;)) {
+      if (legacy.secure.hasOwnProperty('port')) {
         mqtts_interface.port = legacy.secure.port;
       }
 
@@ -8446,17 +8439,17 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     // translate http options
     var http_enabled = !!(legacy.http);
     if (http_enabled) {
-      var http_interface = { type: &#x27;http&#x27; };
+      var http_interface = { type: 'http' };
 
-      if (legacy.http.hasOwnProperty(&#x27;port&#x27;)) {
+      if (legacy.http.hasOwnProperty('port')) {
         http_interface.port = legacy.http.port;
       }
 
-      if (legacy.http.hasOwnProperty(&#x27;bundle&#x27;)) {
+      if (legacy.http.hasOwnProperty('bundle')) {
         http_interface.bundle = legacy.http.bundle;
       }
 
-      if (legacy.http.hasOwnProperty(&#x27;static&#x27;)) {
+      if (legacy.http.hasOwnProperty('static')) {
         http_interface.static = legacy.http.static;
       }
 
@@ -8466,17 +8459,17 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
     // translate https options
     var https_enabled = !!(legacy.https);
     if (https_enabled) {
-      var https_interface = { type: &#x27;https&#x27; };
+      var https_interface = { type: 'https' };
 
-      if (legacy.https.hasOwnProperty(&#x27;port&#x27;)) {
+      if (legacy.https.hasOwnProperty('port')) {
         https_interface.port = legacy.https.port;
       }
 
-      if (legacy.https.hasOwnProperty(&#x27;bundle&#x27;)) {
+      if (legacy.https.hasOwnProperty('bundle')) {
         https_interface.bundle = legacy.https.bundle;
       }
 
-      if (legacy.https.hasOwnProperty(&#x27;static&#x27;)) {
+      if (legacy.https.hasOwnProperty('static')) {
         https_interface.static = legacy.https.static;
       }
 
@@ -8505,18 +8498,18 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
   var defaults = defaultsModern();
 
   // do not extend `interfaces`
-  if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
+  if (opts.hasOwnProperty('interfaces')) {
     delete defaults.interfaces;
   }
   var populated = extend(true, defaults, opts);
 
   populated.interfaces.forEach(function (iface) {
-    if (typeof iface.port === &#x22;undefined&#x22;) {
+    if (typeof iface.port === "undefined") {
       switch (iface.type) {
-        case &#x22;mqtt&#x22;:   iface.port = 1883; break;
-        case &#x22;mqtts&#x22;:  iface.port = 8883; break;
-        case &#x22;http&#x22;:   iface.port = 3000; break;
-        case &#x22;https&#x22;:  iface.port = 3001; break;
+        case "mqtt":   iface.port = 1883; break;
+        case "mqtts":  iface.port = 8883; break;
+        case "http":   iface.port = 3000; break;
+        case "https":  iface.port = 3001; break;
       }
     }
   });
@@ -8544,68 +8537,68 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
   };
 
   validator.addSchema({
-    id: &#x27;/Credentials&#x27;,
-    type: &#x27;object&#x27;,
+    id: '/Credentials',
+    type: 'object',
     additionalProperties: true,
     properties: {
-      &#x27;keyPath&#x27;: { type: &#x27;string&#x27;, required: true },
-      &#x27;certPath&#x27;: { type: &#x27;string&#x27;, required: true },
-      &#x27;caPaths&#x27;: { type: &#x27;array&#x27;, required: false },
-      &#x27;requestCert&#x27;: { type: &#x27;boolean&#x27;, required: false },
-      &#x27;rejectUnauthorized&#x27;: { type: &#x27;boolean&#x27;, required: false }
+      'keyPath': { type: 'string', required: true },
+      'certPath': { type: 'string', required: true },
+      'caPaths': { type: 'array', required: false },
+      'requestCert': { type: 'boolean', required: false },
+      'rejectUnauthorized': { type: 'boolean', required: false }
     }
   });
 
   validator.addSchema({
-    id: &#x27;/Interface&#x27;,
-    type: &#x27;object&#x27;,
+    id: '/Interface',
+    type: 'object',
     properties: {
-      &#x27;type&#x27;: { type: [&#x27;string&#x27;, &#x27;function&#x27;], required: true },
-      &#x27;host&#x27;: { type: [&#x27;string&#x27;, &#x27;null&#x27;] },
-      &#x27;port&#x27;: { type: [&#x27;integer&#x27;] },
-      &#x27;credentials&#x27;: { $ref: &#x27;/Credentials&#x27; },
+      'type': { type: ['string', 'function'], required: true },
+      'host': { type: ['string', 'null'] },
+      'port': { type: ['integer'] },
+      'credentials': { $ref: '/Credentials' },
     }
   });
 
   validator.addSchema({
-    id: &#x27;/Options&#x27;,
-    type: &#x27;object&#x27;,
+    id: '/Options',
+    type: 'object',
     additionalProperties: false,
     properties: {
-      &#x27;id&#x27;: { type: &#x27;string&#x27; },
-      &#x27;host&#x27;: { type: [&#x27;string&#x27;, &#x27;null&#x27;] },
-      &#x27;interfaces&#x27;: {
-        type: &#x27;array&#x27;,
-        items: { $ref: &#x27;/Interface&#x27; }
+      'id': { type: 'string' },
+      'host': { type: ['string', 'null'] },
+      'interfaces': {
+        type: 'array',
+        items: { $ref: '/Interface' }
       },
-      &#x27;credentials&#x27;: { $ref: &#x27;/Credentials&#x27; },
+      'credentials': { $ref: '/Credentials' },
 
-      &#x27;backend&#x27;: { type: &#x27;object&#x27; },     // TODO
-      &#x27;ascoltatore&#x27;: { type: &#x27;object&#x27; }, // TODO
-      &#x27;persistence&#x27;: { type: &#x27;object&#x27; }, // TODO
-      &#x27;logger&#x27;: { type: &#x27;object&#x27; },      // TODO
+      'backend': { type: 'object' },     // TODO
+      'ascoltatore': { type: 'object' }, // TODO
+      'persistence': { type: 'object' }, // TODO
+      'logger': { type: 'object' },      // TODO
 
-      &#x27;maxInflightMessages&#x27;: { type: &#x27;integer&#x27; },
-      &#x27;stats&#x27;: { type: &#x27;boolean&#x27; },
-      &#x27;publishNewClient&#x27;: { type: &#x27;boolean&#x27; },
-      &#x27;publishClientDisconnect&#x27;: { type: &#x27;boolean&#x27; },
-      &#x27;publishSubscriptions&#x27;: { type: &#x27;boolean&#x27; }
+      'maxInflightMessages': { type: 'integer' },
+      'stats': { type: 'boolean' },
+      'publishNewClient': { type: 'boolean' },
+      'publishClientDisconnect': { type: 'boolean' },
+      'publishSubscriptions': { type: 'boolean' }
     }
   });
 
-  var result = validator.validate(opts, &#x27;/Options&#x27;, validationOptions);
+  var result = validator.validate(opts, '/Options', validationOptions);
 
   // check required credentials
-  if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
-    var hasCredentials = opts.hasOwnProperty(&#x27;credentials&#x27;);
+  if (opts.hasOwnProperty('interfaces')) {
+    var hasCredentials = opts.hasOwnProperty('credentials');
     var reqCredentials = opts.interfaces.some(function (iface) {
-      var req = (iface.type === &#x27;mqtts&#x27; || iface.type === &#x27;https&#x27;);
-      var has = iface.hasOwnProperty(&#x27;credentials&#x27;);
-      return req &#x26;&#x26; !has;
+      var req = (iface.type === 'mqtts' || iface.type === 'https');
+      var has = iface.hasOwnProperty('credentials');
+      return req &amp;&amp; !has;
     });
 
-    if (reqCredentials &#x26;&#x26; !hasCredentials) {
-      result.addError(&#x27;one of the defiend interfaces requires credentials&#x27;);
+    if (reqCredentials &amp;&amp; !hasCredentials) {
+      result.addError('one of the defiend interfaces requires credentials');
     }
   }
 
@@ -8614,21 +8607,21 @@ that.server.restoreClientSubscriptions(that, function(session_present) {
   return result;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-    &#x27;stats&#x27;: { type: &#x27;boolean&#x27; },
-    &#x27;publishNewClient&#x27;: { type: &#x27;boolean&#x27; },
-    &#x27;publishClientDisconnect&#x27;: { type: &#x27;boolean&#x27; },
-    &#x27;publishSubscriptions&#x27;: { type: &#x27;boolean&#x27; }
+    'stats': { type: 'boolean' },
+    'publishNewClient': { type: 'boolean' },
+    'publishClientDisconnect': { type: 'boolean' },
+    'publishSubscriptions': { type: 'boolean' }
   }
 });
 
-var result = validator.<span class="apidocCodeKeywordSpan">validate</span>(opts, &#x27;/Options&#x27;, validationOptions);
+var result = validator.<span class="apidocCodeKeywordSpan">validate</span>(opts, '/Options', validationOptions);
 
 // check required credentials
-if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
-  var hasCredentials = opts.hasOwnProperty(&#x27;credentials&#x27;);
+if (opts.hasOwnProperty('interfaces')) {
+  var hasCredentials = opts.hasOwnProperty('credentials');
   var reqCredentials = opts.interfaces.some(function (iface) {
-    var req = (iface.type === &#x27;mqtts&#x27; || iface.type === &#x27;https&#x27;);
-    var has = iface.hasOwnProperty(&#x27;credentials&#x27;);
+    var req = (iface.type === 'mqtts' || iface.type === 'https');
+    var has = iface.hasOwnProperty('credentials');
 ...</pre></li>
     </ul>
 
@@ -8658,10 +8651,10 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
 
   var db = sublevel(this.db);
 
-  this._retained = db.sublevel(&#x22;retained&#x22;);
-  this._clientSubscriptions = db.sublevel(&#x22;clientSubscriptions&#x22;);
-  this._subscriptions = db.sublevel(&#x22;subscriptions&#x22;);
-  this._offlinePackets = db.sublevel(&#x22;offlinePackets&#x22;);
+  this._retained = db.sublevel("retained");
+  this._clientSubscriptions = db.sublevel("clientSubscriptions");
+  this._subscriptions = db.sublevel("subscriptions");
+  this._offlinePackets = db.sublevel("offlinePackets");
   this._subMatcher = new Matcher();
   this._packetCounter = 0;
   this._lastStoredPacketTime = Date.now();
@@ -8670,16 +8663,16 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
   var that = this;
   var stream = this._subscriptions.createReadStream();
   this._streams.push(stream);
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     that._subMatcher.add(data.value.topic, data.key);
   });
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     if (callback) {
       callback(null, that);
     }
   });
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 }</pre></li>
@@ -8702,7 +8695,7 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
 
   options = options || {};
   options.db = factory;
-  options.path = &#x22;RAM&#x22;;
+  options.path = "RAM";
   LevelUpPersistence.call(this, options, callback);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -8748,24 +8741,24 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
     that.db = db;
     steed.parallel([
       function(cb) {
-        db.collection(&#x22;subscriptions&#x22;, function(err, coll) {
+        db.collection("subscriptions", function(err, coll) {
           that._subscriptions = coll;
           steed.parallel([
-            that._subscriptions.ensureIndex.bind(that._subscriptions, &#x22;client&#x22;),
-            that._subscriptions.ensureIndex.bind(that._subscriptions, { &#x22;added&#x22;: 1 }, { expireAfterSeconds: Math.round(that.options
+            that._subscriptions.ensureIndex.bind(that._subscriptions, "client"),
+            that._subscriptions.ensureIndex.bind(that._subscriptions, { "added": 1 }, { expireAfterSeconds: Math.round(that.options
 .ttl.subscriptions / 1000 )} )
           ], cb);
         });
       },
       function(cb) {
-        db.collection(&#x22;packets&#x22;, function(err, coll) {
+        db.collection("packets", function(err, coll) {
           if (err) {
             return cb(err);
           }
 
           that._packets = coll;
           steed.series([
-            that._packets.ensureIndex.bind(that._packets, &#x22;client&#x22;),
+            that._packets.ensureIndex.bind(that._packets, "client"),
             function(cb){
               // Check expiration indexes. If not exist, create; If exist but with different TTL, delete and recreate; Otherwise
 , do nothing.
@@ -8773,14 +8766,14 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
                 if (error) {
                   cb(error);
                 } else {
-                  var addedIndexKey = {&#x22;added&#x22;: 1};
-                  var addedIndexKeyString = &#x27;added_1&#x27;; // If addedIndex changes, this value should also be changed accordingly.
+                  var addedIndexKey = {"added": 1};
+                  var addedIndexKeyString = 'added_1'; // If addedIndex changes, this value should also be changed accordingly.
                   var addedIndexObj = colIndexes.filter(function(obj){
                     return obj.name == addedIndexKeyString;
                   });
                   var packetTTLInSeconds = Math.round(that.options.ttl.packets / 1000);
-                  if (addedIndexObj.length &#x3c;= 0 || addedIndexObj[0].expireAfterSeconds != packetTTLInSeconds) {
-                    if (addedIndexObj.length &#x3e; 0) {
+                  if (addedIndexObj.length &lt;= 0 || addedIndexObj[0].expireAfterSeconds != packetTTLInSeconds) {
+                    if (addedIndexObj.length &gt; 0) {
                       // Different index TTL, recreate index to make sure the TTL is set to the new number.
                       that._packets.dropIndex(addedIndexKeyString, function (error, result){
                         if (error) {
@@ -8803,9 +8796,9 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
         });
       },
       function(cb) {
-        db.collection(&#x22;retained&#x22;, function(err, coll) {
+        db.collection("retained", function(err, coll) {
           that._retained = coll;
-          that._retained.ensureIndex(&#x22;topic&#x22;, { unique: true }, cb);
+          that._retained.ensureIndex("topic", { unique: true }, cb);
         });
       }
     ], function(err) {
@@ -8863,11 +8856,11 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
       }
 
       var subs = JSON.parse(result);
-      if (!result || typeof subs !== &#x27;object&#x27;) {
+      if (!result || typeof subs !== 'object') {
         if (!retried) {
           setTimeout(fetchAndUpdateLocalSub.bind(null, key, unsubs, true, cb), 500);
         } else {
-          cb &#x26;&#x26; cb();
+          cb &amp;&amp; cb();
         }
         return;
       }
@@ -8881,7 +8874,7 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
   };
 
   var updateLocalSub = function(key, subs, unsubs) {
-    var xs = key.split(&#x22;:&#x22;);
+    var xs = key.split(":");
     var id = key.substr(xs[0].length + xs[1].length + 2);
 
     Object.keys(subs).forEach(function(sub) {
@@ -8902,38 +8895,38 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
       return;
     }
     var subsStream = that._client.scanStream({
-      match: &#x22;client:sub:*&#x22;,
+      match: "client:sub:*",
       count: 25000
     });
     var pipeline = that._client.pipeline();
     var total = 0;
     var done = null;
 
-    subsStream.on(&#x27;data&#x27;, function(moreKeys){
+    subsStream.on('data', function(moreKeys){
       total += moreKeys.length;
       moreKeys.map(function(k){
         pipeline.get(k, function(err, result) {
           if (err) {
-            done &#x26;&#x26; done(err);
+            done &amp;&amp; done(err);
             return;
           }
           var subs = JSON.parse(result);
-          if (!result || typeof subs !== &#x27;object&#x27;) {
-            done &#x26;&#x26; done();
+          if (!result || typeof subs !== 'object') {
+            done &amp;&amp; done();
             return;
           }
           updateLocalSub(k, subs);
-          done &#x26;&#x26; done();
+          done &amp;&amp; done();
         });
       });
     });
 
-    subsStream.on(&#x27;end&#x27;, function(){
+    subsStream.on('end', function(){
       if (total === 0) {
         return callback(null, that);
       }
       done = function() {
-        if (--total === 0 &#x26;&#x26; callback) {
+        if (--total === 0 &amp;&amp; callback) {
           callback(null, that);
           callback = null;
         }
@@ -8942,7 +8935,7 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
     });
   });
 
-  this._pubSubClient.on(&#x22;message&#x22;, function(channel, message) {
+  this._pubSubClient.on("message", function(channel, message) {
     if (that._explicitlyClosed()) {
       return;
     }
@@ -8996,10 +8989,10 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
 
   var db = sublevel(this.db);
 
-  this._retained = db.sublevel(&#x22;retained&#x22;);
-  this._clientSubscriptions = db.sublevel(&#x22;clientSubscriptions&#x22;);
-  this._subscriptions = db.sublevel(&#x22;subscriptions&#x22;);
-  this._offlinePackets = db.sublevel(&#x22;offlinePackets&#x22;);
+  this._retained = db.sublevel("retained");
+  this._clientSubscriptions = db.sublevel("clientSubscriptions");
+  this._subscriptions = db.sublevel("subscriptions");
+  this._offlinePackets = db.sublevel("offlinePackets");
   this._subMatcher = new Matcher();
   this._packetCounter = 0;
   this._lastStoredPacketTime = Date.now();
@@ -9008,16 +9001,16 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
   var that = this;
   var stream = this._subscriptions.createReadStream();
   this._streams.push(stream);
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     that._subMatcher.add(data.value.topic, data.key);
   });
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     if (callback) {
       callback(null, that);
     }
   });
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 }</pre></li>
@@ -9077,7 +9070,7 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
     this._packetCounter = 0;
   }
   this._lastStoredPacketTime = currentTime;
-  var key = util.format(&#x22;%s:%d:%d&#x22;, client, currentTime, ++this._packetCounter);
+  var key = util.format("%s:%d:%d", client, currentTime, ++this._packetCounter);
   packet.ttl = this.options.ttl.packets + currentTime;
   this._offlinePackets.put(key, packet, cb);
 }</pre></li>
@@ -9101,9 +9094,9 @@ if (opts.hasOwnProperty(&#x27;interfaces&#x27;)) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -9129,15 +9122,15 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">deleteOfflinePacket = function (client, messageId, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var found = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     if (data.value.messageId !== messageId) {
       return;
     }
@@ -9151,17 +9144,17 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
-    stream.on(&#x22;end&#x22;, function() {
+    stream.on("error", done);
+    stream.on("end", function() {
       if (!found) {
         done();
       }
@@ -9171,19 +9164,19 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <li>example usage<pre class="apidocCodePre">...
 var that = this;
 
-logger.debug({ packet: packet }, &#x22;puback&#x22;);
+logger.debug({ packet: packet }, "puback");
 if (this.inflight[packet.messageId]) {
-  this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+  this.server.emit("delivered", this.inflight[packet.messageId], that);
   this.inflightCounter--;
   delete this.inflight[packet.messageId];
   this.server.<span class="apidocCodeKeywordSpan">deleteOfflinePacket</span>(this, packet.messageId, function(err) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+      return that.client &amp;&amp; that.client.emit("error", err);
     }
-    logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+    logger.debug({ packet: packet }, "cleaned offline packet");
   });
 } else {
-  logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+  logger.info({ packet: packet }, "no matching packet");
 ...</pre></li>
     </ul>
 
@@ -9204,19 +9197,19 @@ if (this.inflight[packet.messageId]) {
   this._streams.push(stream);
   matcher.add(pattern, true);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     cb(null, matched);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;data&#x22;, function(data) {
-    if (matcher.match(data.key).size &#x3e; 0) {
+  stream.on("data", function(data) {
+    if (matcher.match(data.key).size &gt; 0) {
       matched.push(data.value);
     }
   });
@@ -9241,8 +9234,8 @@ if (this.inflight[packet.messageId]) {
     subscriptions = subscriptions || {};
 
     Object.keys(subscriptions).forEach(function(key) {
-      var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
-      if (subscriptions[key].ttl &#x3c;= Date.now()) {
+      var levelKey = util.format("%s:%s", key, client.id);
+      if (subscriptions[key].ttl &lt;= Date.now()) {
         delete subscriptions[key];
         that._subMatcher.remove(key, levelKey);
         toRemove.push(levelKey);
@@ -9253,7 +9246,7 @@ if (this.inflight[packet.messageId]) {
       that._clientSubscriptions.del(client.id, function() {
         Object.keys(subscriptions).forEach(function(key) {
           // TODO we need to remove these from the subMatcher every time.
-          var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
+          var levelKey = util.format("%s:%s", key, client.id);
           that._subMatcher.remove(key, levelKey);
           toRemove.push(levelKey);
         });
@@ -9262,7 +9255,7 @@ if (this.inflight[packet.messageId]) {
           that._subscriptions.batch(toRemove.map(function(levelKey) {
             return {
               key: levelKey,
-              type: &#x27;del&#x27;
+              type: 'del'
             };
           }), function(err) {
             done(err, {});
@@ -9311,7 +9304,7 @@ if (this.inflight[packet.messageId]) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeRetained = function (packet, cb) {
-  if (packet.payload.length &#x3e; 0) {
+  if (packet.payload.length &gt; 0) {
     this._retained.put(packet.topic, packet, cb);
   } else {
     this._retained.del(packet.topic, cb);
@@ -9336,7 +9329,7 @@ if (this.inflight[packet.messageId]) {
 
   if (!client.clean) {
     Object.keys(client.subscriptions).forEach(function(key) {
-      if (client.subscriptions[key].qos &#x3e; 0) {
+      if (client.subscriptions[key].qos &gt; 0) {
         subscriptions[key] = client.subscriptions[key];
         subscriptions[key].ttl = that.options.ttl.subscriptions + now;
       }
@@ -9349,7 +9342,7 @@ if (this.inflight[packet.messageId]) {
         ttl: that.options.ttl.subscriptions + now,
         qos: subscriptions[key].qos
       };
-      var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
+      var levelKey = util.format("%s:%s", key, client.id);
       that._subMatcher.add(key, levelKey);
       that._subscriptions.put(levelKey, sub);
     });
@@ -9371,24 +9364,24 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">streamOfflinePackets = function (client, cb, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var count = 0;
   var ended = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
 
-    if (client.clean || data.value.ttl &#x3c;= Date.now()) {
+    if (client.clean || data.value.ttl &lt;= Date.now()) {
       count++;
       that._offlinePackets.del(data.key, function() {
         count--;
 
 	// for testing
-        if (ended &#x26;&#x26; count === 0 &#x26;&#x26; done) {
+        if (ended &amp;&amp; count === 0 &amp;&amp; done) {
           done();
         }
       });
@@ -9397,23 +9390,23 @@ if (this.inflight[packet.messageId]) {
     }
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     ended = true;
 
     // for testing
-    if (count === 0 &#x26;&#x26; done) {
+    if (count === 0 &amp;&amp; done) {
       done();
     }
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   // for testing
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
+    stream.on("error", done);
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -9430,15 +9423,15 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">updateOfflinePacket = function (client, messageId, packet, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var found = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     if (data.value.messageId !== messageId) {
       return;
     }
@@ -9454,17 +9447,17 @@ if (this.inflight[packet.messageId]) {
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
-    stream.on(&#x22;end&#x22;, function() {
+    stream.on("error", done);
+    stream.on("end", function() {
       if (!found) {
         done(null, packet);
       }
@@ -9478,7 +9471,7 @@ if (this.inflight[packet.messageId]) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.<span class="apidocCodeKeywordSpan">updateOfflinePacket</span>(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -9532,7 +9525,7 @@ if (this.inflight[packet.messageId]) {
     this._packetCounter = 0;
   }
   this._lastStoredPacketTime = currentTime;
-  var key = util.format(&#x22;%s:%d:%d&#x22;, client, currentTime, ++this._packetCounter);
+  var key = util.format("%s:%d:%d", client, currentTime, ++this._packetCounter);
   packet.ttl = this.options.ttl.packets + currentTime;
   this._offlinePackets.put(key, packet, cb);
 }</pre></li>
@@ -9561,9 +9554,9 @@ if (this.inflight[packet.messageId]) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -9594,15 +9587,15 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">deleteOfflinePacket = function (client, messageId, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var found = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     if (data.value.messageId !== messageId) {
       return;
     }
@@ -9616,17 +9609,17 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
-    stream.on(&#x22;end&#x22;, function() {
+    stream.on("error", done);
+    stream.on("end", function() {
       if (!found) {
         done();
       }
@@ -9636,19 +9629,19 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <li>example usage<pre class="apidocCodePre">...
 var that = this;
 
-logger.debug({ packet: packet }, &#x22;puback&#x22;);
+logger.debug({ packet: packet }, "puback");
 if (this.inflight[packet.messageId]) {
-  this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+  this.server.emit("delivered", this.inflight[packet.messageId], that);
   this.inflightCounter--;
   delete this.inflight[packet.messageId];
   this.server.<span class="apidocCodeKeywordSpan">deleteOfflinePacket</span>(this, packet.messageId, function(err) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+      return that.client &amp;&amp; that.client.emit("error", err);
     }
-    logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+    logger.debug({ packet: packet }, "cleaned offline packet");
   });
 } else {
-  logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+  logger.info({ packet: packet }, "no matching packet");
 ...</pre></li>
     </ul>
 
@@ -9674,19 +9667,19 @@ if (this.inflight[packet.messageId]) {
   this._streams.push(stream);
   matcher.add(pattern, true);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     cb(null, matched);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;data&#x22;, function(data) {
-    if (matcher.match(data.key).size &#x3e; 0) {
+  stream.on("data", function(data) {
+    if (matcher.match(data.key).size &gt; 0) {
       matched.push(data.value);
     }
   });
@@ -9716,8 +9709,8 @@ if (this.inflight[packet.messageId]) {
     subscriptions = subscriptions || {};
 
     Object.keys(subscriptions).forEach(function(key) {
-      var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
-      if (subscriptions[key].ttl &#x3c;= Date.now()) {
+      var levelKey = util.format("%s:%s", key, client.id);
+      if (subscriptions[key].ttl &lt;= Date.now()) {
         delete subscriptions[key];
         that._subMatcher.remove(key, levelKey);
         toRemove.push(levelKey);
@@ -9728,7 +9721,7 @@ if (this.inflight[packet.messageId]) {
       that._clientSubscriptions.del(client.id, function() {
         Object.keys(subscriptions).forEach(function(key) {
           // TODO we need to remove these from the subMatcher every time.
-          var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
+          var levelKey = util.format("%s:%s", key, client.id);
           that._subMatcher.remove(key, levelKey);
           toRemove.push(levelKey);
         });
@@ -9737,7 +9730,7 @@ if (this.inflight[packet.messageId]) {
           that._subscriptions.batch(toRemove.map(function(levelKey) {
             return {
               key: levelKey,
-              type: &#x27;del&#x27;
+              type: 'del'
             };
           }), function(err) {
             done(err, {});
@@ -9796,7 +9789,7 @@ if (this.inflight[packet.messageId]) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeRetained = function (packet, cb) {
-  if (packet.payload.length &#x3e; 0) {
+  if (packet.payload.length &gt; 0) {
     this._retained.put(packet.topic, packet, cb);
   } else {
     this._retained.del(packet.topic, cb);
@@ -9826,7 +9819,7 @@ if (this.inflight[packet.messageId]) {
 
   if (!client.clean) {
     Object.keys(client.subscriptions).forEach(function(key) {
-      if (client.subscriptions[key].qos &#x3e; 0) {
+      if (client.subscriptions[key].qos &gt; 0) {
         subscriptions[key] = client.subscriptions[key];
         subscriptions[key].ttl = that.options.ttl.subscriptions + now;
       }
@@ -9839,7 +9832,7 @@ if (this.inflight[packet.messageId]) {
         ttl: that.options.ttl.subscriptions + now,
         qos: subscriptions[key].qos
       };
-      var levelKey = util.format(&#x22;%s:%s&#x22;, key, client.id);
+      var levelKey = util.format("%s:%s", key, client.id);
       that._subMatcher.add(key, levelKey);
       that._subscriptions.put(levelKey, sub);
     });
@@ -9866,24 +9859,24 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">streamOfflinePackets = function (client, cb, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var count = 0;
   var ended = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
 
-    if (client.clean || data.value.ttl &#x3c;= Date.now()) {
+    if (client.clean || data.value.ttl &lt;= Date.now()) {
       count++;
       that._offlinePackets.del(data.key, function() {
         count--;
 
 	// for testing
-        if (ended &#x26;&#x26; count === 0 &#x26;&#x26; done) {
+        if (ended &amp;&amp; count === 0 &amp;&amp; done) {
           done();
         }
       });
@@ -9892,23 +9885,23 @@ if (this.inflight[packet.messageId]) {
     }
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     ended = true;
 
     // for testing
-    if (count === 0 &#x26;&#x26; done) {
+    if (count === 0 &amp;&amp; done) {
       done();
     }
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   // for testing
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
+    stream.on("error", done);
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -9930,15 +9923,15 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">updateOfflinePacket = function (client, messageId, packet, done) {
   var that = this;
-  var prefix = util.format(&#x27;%s:&#x27;, client.id);
+  var prefix = util.format('%s:', client.id);
   var found = false;
   var stream = that._offlinePackets.createReadStream({
     start : prefix,
-    end : prefix + &#x27;~&#x27;
+    end : prefix + '~'
   });
   this._streams.push(stream);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     if (data.value.messageId !== messageId) {
       return;
     }
@@ -9954,17 +9947,17 @@ if (this.inflight[packet.messageId]) {
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
   });
 
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
-    stream.on(&#x22;end&#x22;, function() {
+    stream.on("error", done);
+    stream.on("end", function() {
       if (!found) {
         done(null, packet);
       }
@@ -9978,7 +9971,7 @@ if (this.inflight[packet.messageId]) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.<span class="apidocCodeKeywordSpan">updateOfflinePacket</span>(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -10005,14 +9998,14 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">close = function (done) {
   if (done) {
-    done(new Error(&#x22;not implemented yet&#x22;));
+    done(new Error("not implemented yet"));
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -10044,13 +10037,13 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   server.storePacket = function(packet, cb) {
 
     // store qos 0 packets only if storeMessagesQos0 is true or retain is true
-    if(packet.qos === 0 &#x26;&#x26; packet.retain === false &#x26;&#x26; ! that.options.storeMessagesQos0){
+    if(packet.qos === 0 &amp;&amp; packet.retain === false &amp;&amp; ! that.options.storeMessagesQos0){
       return cb();
     }
 
     var total = 1;
     var done = function() {
-      if (--total === 0 &#x26;&#x26; cb) {
+      if (--total === 0 &amp;&amp; cb) {
         cb();
       }
     };
@@ -10076,7 +10069,7 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   server.forwardRetained = function(pattern, client, done) {
     that.lookupRetained(pattern, function(err, matches) {
       if (err) {
-        client.connection.emit(&#x22;error&#x22;, err);
+        client.connection.emit("error", err);
         return;
       }
       steed.each(matches, function(match, cb) {
@@ -10085,21 +10078,21 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     });
   };
 
-  server.on(&#x22;close&#x22;, function() {
+  server.on("close", function() {
     that.close();
   });
 
   server.restoreClientSubscriptions = function restoreClientSubscriptions(client, done) {
     that.lookupSubscriptions(client, function(err, subscriptions) {
       if (err) {
-        client.connection.emit(&#x22;error&#x22;, err);
+        client.connection.emit("error", err);
         return;
       }
 
       var subs = Object.keys(subscriptions);
 
       steed.each(subs, function(topic, inCb) {
-        client.logger.debug({ topic: topic, qos: subscriptions[topic].qos }, &#x22;restoring subscription&#x22;);
+        client.logger.debug({ topic: topic, qos: subscriptions[topic].qos }, "restoring subscription");
         client.handleAuthorizeSubscribe(
           null, true, {
           topic: topic,
@@ -10113,17 +10106,17 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     // do not waste cpu time find in stored packets...
     // if client is clean lookupSubscriptions already delete stored packets
     if(client.clean)
-      return done &#x26;&#x26; done();
+      return done &amp;&amp; done();
 
     that.streamOfflinePackets(client, function(err, packet) {
       packet.offline = true;
-      client.logger.debug({ packet: packet }, &#x22;Forwarding offline packet&#x22;);
+      client.logger.debug({ packet: packet }, "Forwarding offline packet");
       client.forward(packet.topic, packet.payload, packet, packet.topic, packet.qos);
     }, done);
   };
 
   server.persistClient = function(client, done) {
-    client.logger.debug(&#x22;Storing offline subscriptions&#x22;);
+    client.logger.debug("Storing offline subscriptions");
     that.storeSubscriptions(client, done);
   };
 }</pre></li>
@@ -10151,7 +10144,7 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
 
   options = options || {};
   options.db = factory;
-  options.path = &#x22;RAM&#x22;;
+  options.path = "RAM";
   LevelUpPersistence.call(this, options, callback);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -10178,10 +10171,10 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
 
   var db = sublevel(this.db);
 
-  this._retained = db.sublevel(&#x22;retained&#x22;);
-  this._clientSubscriptions = db.sublevel(&#x22;clientSubscriptions&#x22;);
-  this._subscriptions = db.sublevel(&#x22;subscriptions&#x22;);
-  this._offlinePackets = db.sublevel(&#x22;offlinePackets&#x22;);
+  this._retained = db.sublevel("retained");
+  this._clientSubscriptions = db.sublevel("clientSubscriptions");
+  this._subscriptions = db.sublevel("subscriptions");
+  this._offlinePackets = db.sublevel("offlinePackets");
   this._subMatcher = new Matcher();
   this._packetCounter = 0;
   this._lastStoredPacketTime = Date.now();
@@ -10190,16 +10183,16 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   var that = this;
   var stream = this._subscriptions.createReadStream();
   this._streams.push(stream);
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     that._subMatcher.add(data.value.topic, data.key);
   });
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     that._cleanupStream(stream);
     if (callback) {
       callback(null, that);
     }
   });
-  stream.on(&#x22;close&#x22;, function() {
+  stream.on("close", function() {
     that._cleanupStream(stream);
   });
 }</pre></li>
@@ -10231,9 +10224,9 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -10273,9 +10266,9 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -10335,24 +10328,24 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     that.db = db;
     steed.parallel([
       function(cb) {
-        db.collection(&#x22;subscriptions&#x22;, function(err, coll) {
+        db.collection("subscriptions", function(err, coll) {
           that._subscriptions = coll;
           steed.parallel([
-            that._subscriptions.ensureIndex.bind(that._subscriptions, &#x22;client&#x22;),
-            that._subscriptions.ensureIndex.bind(that._subscriptions, { &#x22;added&#x22;: 1 }, { expireAfterSeconds: Math.round(that.options
+            that._subscriptions.ensureIndex.bind(that._subscriptions, "client"),
+            that._subscriptions.ensureIndex.bind(that._subscriptions, { "added": 1 }, { expireAfterSeconds: Math.round(that.options
 .ttl.subscriptions / 1000 )} )
           ], cb);
         });
       },
       function(cb) {
-        db.collection(&#x22;packets&#x22;, function(err, coll) {
+        db.collection("packets", function(err, coll) {
           if (err) {
             return cb(err);
           }
 
           that._packets = coll;
           steed.series([
-            that._packets.ensureIndex.bind(that._packets, &#x22;client&#x22;),
+            that._packets.ensureIndex.bind(that._packets, "client"),
             function(cb){
               // Check expiration indexes. If not exist, create; If exist but with different TTL, delete and recreate; Otherwise
 , do nothing.
@@ -10360,14 +10353,14 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
                 if (error) {
                   cb(error);
                 } else {
-                  var addedIndexKey = {&#x22;added&#x22;: 1};
-                  var addedIndexKeyString = &#x27;added_1&#x27;; // If addedIndex changes, this value should also be changed accordingly.
+                  var addedIndexKey = {"added": 1};
+                  var addedIndexKeyString = 'added_1'; // If addedIndex changes, this value should also be changed accordingly.
                   var addedIndexObj = colIndexes.filter(function(obj){
                     return obj.name == addedIndexKeyString;
                   });
                   var packetTTLInSeconds = Math.round(that.options.ttl.packets / 1000);
-                  if (addedIndexObj.length &#x3c;= 0 || addedIndexObj[0].expireAfterSeconds != packetTTLInSeconds) {
-                    if (addedIndexObj.length &#x3e; 0) {
+                  if (addedIndexObj.length &lt;= 0 || addedIndexObj[0].expireAfterSeconds != packetTTLInSeconds) {
+                    if (addedIndexObj.length &gt; 0) {
                       // Different index TTL, recreate index to make sure the TTL is set to the new number.
                       that._packets.dropIndex(addedIndexKeyString, function (error, result){
                         if (error) {
@@ -10390,9 +10383,9 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
         });
       },
       function(cb) {
-        db.collection(&#x22;retained&#x22;, function(err, coll) {
+        db.collection("retained", function(err, coll) {
           that._retained = coll;
-          that._retained.ensureIndex(&#x22;topic&#x22;, { unique: true }, cb);
+          that._retained.ensureIndex("topic", { unique: true }, cb);
         });
       }
     ], function(err) {
@@ -10463,7 +10456,7 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">close = function (cb) {
-  if (this.db &#x26;&#x26; this.options.autoClose !== false) {
+  if (this.db &amp;&amp; this.options.autoClose !== false) {
     this.db.close(cb);
   } else {
     cb();
@@ -10471,9 +10464,9 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -10500,7 +10493,7 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <li>description and source-code<pre class="apidocCodePre">deleteOfflinePacket = function (client, messageId, cb) {
   var toSearch = {
     client: client.id,
-    &#x27;packet.messageId&#x27;: messageId
+    'packet.messageId': messageId
   };
 
   this._packets.remove(toSearch, {w:1}, cb);
@@ -10508,19 +10501,19 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <li>example usage<pre class="apidocCodePre">...
 var that = this;
 
-logger.debug({ packet: packet }, &#x22;puback&#x22;);
+logger.debug({ packet: packet }, "puback");
 if (this.inflight[packet.messageId]) {
-  this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+  this.server.emit("delivered", this.inflight[packet.messageId], that);
   this.inflightCounter--;
   delete this.inflight[packet.messageId];
   this.server.<span class="apidocCodeKeywordSpan">deleteOfflinePacket</span>(this, packet.messageId, function(err) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+      return that.client &amp;&amp; that.client.emit("error", err);
     }
-    logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+    logger.debug({ packet: packet }, "cleaned offline packet");
   });
 } else {
-  logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+  logger.info({ packet: packet }, "no matching packet");
 ...</pre></li>
     </ul>
 
@@ -10534,20 +10527,20 @@ if (this.inflight[packet.messageId]) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">lookupRetained = function (pattern, cb) {
-  var regexp = new RegExp(pattern.replace(/(#|\+)/, &#x22;.+&#x22;).replace(&#x27;\\&#x27;, &#x27;\\\\&#x27;));
+  var regexp = new RegExp(pattern.replace(/(#|\+)/, ".+").replace('\\', '\\\\'));
   var stream = this._retained.find({ topic: { $regex: regexp } }).stream();
   var matched = [];
   var matcher = new Matcher();
   matcher.add(pattern, true);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     cb(null, matched);
   });
 
-  stream.on(&#x22;data&#x22;, function(data) {
-    if (matcher.match(data.topic).size &#x3e; 0) {
+  stream.on("data", function(data) {
+    if (matcher.match(data.topic).size &gt; 0) {
       data.payload = data.payload.buffer;
       matched.push(data);
     }
@@ -10574,7 +10567,7 @@ if (this.inflight[packet.messageId]) {
 
     subscriptions = (subscriptions || []).reduce(function(obj, sub) {
       // mongodb TTL is not precise
-      if (sub.added.getTime() + that.options.ttl.subscriptions &#x3e; now) {
+      if (sub.added.getTime() + that.options.ttl.subscriptions &gt; now) {
         obj[sub.topic] = {
           qos: sub.qos
         };
@@ -10624,29 +10617,29 @@ if (this.inflight[packet.messageId]) {
   var that = this;
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
+    stream.on("error", done);
   }
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     started++;
 
     that._storePacket(data.client, packet, function(err) {
       if (err) {
-        return stream.emit(&#x22;error&#x22;, err);
+        return stream.emit("error", err);
       }
 
       // TODO handle the err in case of no callback
       completed++;
 
-      if (done &#x26;&#x26; ended &#x26;&#x26; started === completed) {
+      if (done &amp;&amp; ended &amp;&amp; started === completed) {
         done();
       }
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     ended = true;
-    if (done &#x26;&#x26; started === completed) {
+    if (done &amp;&amp; started === completed) {
       done();
     }
   });
@@ -10664,7 +10657,7 @@ if (this.inflight[packet.messageId]) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeRetained = function (packet, cb) {
-  if (packet.payload.length &#x3e; 0) {
+  if (packet.payload.length &gt; 0) {
     this._retained.update(
       { topic: packet.topic },
       packet,
@@ -10703,14 +10696,14 @@ if (this.inflight[packet.messageId]) {
 
   if (!client.clean) {
     subscriptions = Object.keys(client.subscriptions).filter(function(key) {
-      return client.subscriptions[key].qos &#x3e; 0;
+      return client.subscriptions[key].qos &gt; 0;
     });
 
     steed.each(subscriptions, function(key, cb) {
       that._subscriptions.findAndModify({
         client: client.id,
         topic: key
-      }, [[&#x27;date&#x27;, -1]], {
+      }, [['date', -1]], {
         $set: {
           client: client.id,
           topic: key,
@@ -10744,14 +10737,14 @@ if (this.inflight[packet.messageId]) {
 
   // for testing
   if(done)
-    stream.on(&#x22;end&#x22;, done);
+    stream.on("end", done);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     // mongodb TTL is not precise
     // mongodb automaticly remove the packet
-    if (data.added.getTime() + that.options.ttl.packets &#x3e; now) {
+    if (data.added.getTime() + that.options.ttl.packets &gt; now) {
       data.packet.payload = data.packet.payload.buffer;
       cb(null, data.packet);
     }
@@ -10773,9 +10766,9 @@ if (this.inflight[packet.messageId]) {
     <li>description and source-code<pre class="apidocCodePre">updateOfflinePacket = function (client, messageId, packet, cb) {
   this._packets.update({
     client: client.id,
-    &#x27;packet.messageId&#x27;: messageId
+    'packet.messageId': messageId
   }, {
-    $set: { &#x27;packet.messageId&#x27;: packet.messageId }
+    $set: { 'packet.messageId': packet.messageId }
   }, {w:1}, function(err) {
     cb(err, packet);
   });
@@ -10787,7 +10780,7 @@ if (this.inflight[packet.messageId]) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.<span class="apidocCodeKeywordSpan">updateOfflinePacket</span>(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -10839,7 +10832,7 @@ if (this.inflight[packet.messageId]) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">close = function (cb) {
-  if (this.db &#x26;&#x26; this.options.autoClose !== false) {
+  if (this.db &amp;&amp; this.options.autoClose !== false) {
     this.db.close(cb);
   } else {
     cb();
@@ -10847,9 +10840,9 @@ if (this.inflight[packet.messageId]) {
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -10881,7 +10874,7 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <li>description and source-code<pre class="apidocCodePre">deleteOfflinePacket = function (client, messageId, cb) {
   var toSearch = {
     client: client.id,
-    &#x27;packet.messageId&#x27;: messageId
+    'packet.messageId': messageId
   };
 
   this._packets.remove(toSearch, {w:1}, cb);
@@ -10889,19 +10882,19 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <li>example usage<pre class="apidocCodePre">...
 var that = this;
 
-logger.debug({ packet: packet }, &#x22;puback&#x22;);
+logger.debug({ packet: packet }, "puback");
 if (this.inflight[packet.messageId]) {
-  this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+  this.server.emit("delivered", this.inflight[packet.messageId], that);
   this.inflightCounter--;
   delete this.inflight[packet.messageId];
   this.server.<span class="apidocCodeKeywordSpan">deleteOfflinePacket</span>(this, packet.messageId, function(err) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+      return that.client &amp;&amp; that.client.emit("error", err);
     }
-    logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+    logger.debug({ packet: packet }, "cleaned offline packet");
   });
 } else {
-  logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+  logger.info({ packet: packet }, "no matching packet");
 ...</pre></li>
     </ul>
 
@@ -10920,20 +10913,20 @@ if (this.inflight[packet.messageId]) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">lookupRetained = function (pattern, cb) {
-  var regexp = new RegExp(pattern.replace(/(#|\+)/, &#x22;.+&#x22;).replace(&#x27;\\&#x27;, &#x27;\\\\&#x27;));
+  var regexp = new RegExp(pattern.replace(/(#|\+)/, ".+").replace('\\', '\\\\'));
   var stream = this._retained.find({ topic: { $regex: regexp } }).stream();
   var matched = [];
   var matcher = new Matcher();
   matcher.add(pattern, true);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     cb(null, matched);
   });
 
-  stream.on(&#x22;data&#x22;, function(data) {
-    if (matcher.match(data.topic).size &#x3e; 0) {
+  stream.on("data", function(data) {
+    if (matcher.match(data.topic).size &gt; 0) {
       data.payload = data.payload.buffer;
       matched.push(data);
     }
@@ -10965,7 +10958,7 @@ if (this.inflight[packet.messageId]) {
 
     subscriptions = (subscriptions || []).reduce(function(obj, sub) {
       // mongodb TTL is not precise
-      if (sub.added.getTime() + that.options.ttl.subscriptions &#x3e; now) {
+      if (sub.added.getTime() + that.options.ttl.subscriptions &gt; now) {
         obj[sub.topic] = {
           qos: sub.qos
         };
@@ -11020,29 +11013,29 @@ if (this.inflight[packet.messageId]) {
   var that = this;
 
   if (done) {
-    stream.on(&#x22;error&#x22;, done);
+    stream.on("error", done);
   }
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     started++;
 
     that._storePacket(data.client, packet, function(err) {
       if (err) {
-        return stream.emit(&#x22;error&#x22;, err);
+        return stream.emit("error", err);
       }
 
       // TODO handle the err in case of no callback
       completed++;
 
-      if (done &#x26;&#x26; ended &#x26;&#x26; started === completed) {
+      if (done &amp;&amp; ended &amp;&amp; started === completed) {
         done();
       }
     });
   });
 
-  stream.on(&#x22;end&#x22;, function() {
+  stream.on("end", function() {
     ended = true;
-    if (done &#x26;&#x26; started === completed) {
+    if (done &amp;&amp; started === completed) {
       done();
     }
   });
@@ -11065,7 +11058,7 @@ if (this.inflight[packet.messageId]) {
     </h2>
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeRetained = function (packet, cb) {
-  if (packet.payload.length &#x3e; 0) {
+  if (packet.payload.length &gt; 0) {
     this._retained.update(
       { topic: packet.topic },
       packet,
@@ -11109,14 +11102,14 @@ if (this.inflight[packet.messageId]) {
 
   if (!client.clean) {
     subscriptions = Object.keys(client.subscriptions).filter(function(key) {
-      return client.subscriptions[key].qos &#x3e; 0;
+      return client.subscriptions[key].qos &gt; 0;
     });
 
     steed.each(subscriptions, function(key, cb) {
       that._subscriptions.findAndModify({
         client: client.id,
         topic: key
-      }, [[&#x27;date&#x27;, -1]], {
+      }, [['date', -1]], {
         $set: {
           client: client.id,
           topic: key,
@@ -11155,14 +11148,14 @@ if (this.inflight[packet.messageId]) {
 
   // for testing
   if(done)
-    stream.on(&#x22;end&#x22;, done);
+    stream.on("end", done);
 
-  stream.on(&#x22;error&#x22;, cb);
+  stream.on("error", cb);
 
-  stream.on(&#x22;data&#x22;, function(data) {
+  stream.on("data", function(data) {
     // mongodb TTL is not precise
     // mongodb automaticly remove the packet
-    if (data.added.getTime() + that.options.ttl.packets &#x3e; now) {
+    if (data.added.getTime() + that.options.ttl.packets &gt; now) {
       data.packet.payload = data.packet.payload.buffer;
       cb(null, data.packet);
     }
@@ -11189,9 +11182,9 @@ if (this.inflight[packet.messageId]) {
     <li>description and source-code<pre class="apidocCodePre">updateOfflinePacket = function (client, messageId, packet, cb) {
   this._packets.update({
     client: client.id,
-    &#x27;packet.messageId&#x27;: messageId
+    'packet.messageId': messageId
   }, {
-    $set: { &#x27;packet.messageId&#x27;: packet.messageId }
+    $set: { 'packet.messageId': packet.messageId }
   }, {w:1}, function(err) {
     cb(err, packet);
   });
@@ -11203,7 +11196,7 @@ if (this.inflight[packet.messageId]) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.<span class="apidocCodeKeywordSpan">updateOfflinePacket</span>(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -11257,11 +11250,11 @@ if (this.inflight[packet.messageId]) {
       }
 
       var subs = JSON.parse(result);
-      if (!result || typeof subs !== &#x27;object&#x27;) {
+      if (!result || typeof subs !== 'object') {
         if (!retried) {
           setTimeout(fetchAndUpdateLocalSub.bind(null, key, unsubs, true, cb), 500);
         } else {
-          cb &#x26;&#x26; cb();
+          cb &amp;&amp; cb();
         }
         return;
       }
@@ -11275,7 +11268,7 @@ if (this.inflight[packet.messageId]) {
   };
 
   var updateLocalSub = function(key, subs, unsubs) {
-    var xs = key.split(&#x22;:&#x22;);
+    var xs = key.split(":");
     var id = key.substr(xs[0].length + xs[1].length + 2);
 
     Object.keys(subs).forEach(function(sub) {
@@ -11296,38 +11289,38 @@ if (this.inflight[packet.messageId]) {
       return;
     }
     var subsStream = that._client.scanStream({
-      match: &#x22;client:sub:*&#x22;,
+      match: "client:sub:*",
       count: 25000
     });
     var pipeline = that._client.pipeline();
     var total = 0;
     var done = null;
 
-    subsStream.on(&#x27;data&#x27;, function(moreKeys){
+    subsStream.on('data', function(moreKeys){
       total += moreKeys.length;
       moreKeys.map(function(k){
         pipeline.get(k, function(err, result) {
           if (err) {
-            done &#x26;&#x26; done(err);
+            done &amp;&amp; done(err);
             return;
           }
           var subs = JSON.parse(result);
-          if (!result || typeof subs !== &#x27;object&#x27;) {
-            done &#x26;&#x26; done();
+          if (!result || typeof subs !== 'object') {
+            done &amp;&amp; done();
             return;
           }
           updateLocalSub(k, subs);
-          done &#x26;&#x26; done();
+          done &amp;&amp; done();
         });
       });
     });
 
-    subsStream.on(&#x27;end&#x27;, function(){
+    subsStream.on('end', function(){
       if (total === 0) {
         return callback(null, that);
       }
       done = function() {
-        if (--total === 0 &#x26;&#x26; callback) {
+        if (--total === 0 &amp;&amp; callback) {
           callback(null, that);
           callback = null;
         }
@@ -11336,7 +11329,7 @@ if (this.inflight[packet.messageId]) {
     });
   });
 
-  this._pubSubClient.on(&#x22;message&#x22;, function(channel, message) {
+  this._pubSubClient.on("message", function(channel, message) {
     if (that._explicitlyClosed()) {
       return;
     }
@@ -11418,7 +11411,7 @@ if (this.inflight[packet.messageId]) {
     <li>description and source-code<pre class="apidocCodePre">_cleanClient = function (client, done) {
   var that = this;
 
-  var key = &#x22;client:sub:&#x22; + client.id;
+  var key = "client:sub:" + client.id;
 
   this._client.get(key, function(err, subs) {
     subs = JSON.parse(subs) || {};
@@ -11432,7 +11425,7 @@ if (this.inflight[packet.messageId]) {
         that._client.del(key, cb);
       },
       function(cb) {
-        that._client.del(&#x22;packets:&#x22; + client.id, cb);
+        that._client.del("packets:" + client.id, cb);
       }
     ], function(err) {
       if (done) {
@@ -11470,11 +11463,11 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">_storePacket = function (client, packet, pipeline, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
-  var packetKey = &#x22;packets:&#x22; + client + &#x22;:&#x22; + packet.messageId,
-      listKey = &#x22;packets:&#x22; + client;
+  var packetKey = "packets:" + client + ":" + packet.messageId,
+      listKey = "packets:" + client;
 
   pipeline.multi()
     .set(packetKey, JSON.stringify(packet))
@@ -11499,17 +11492,17 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">close = function (done) {
   if (this._closed) {
-    return done &#x26;&#x26; done();
+    return done &amp;&amp; done();
   }
   if (this._closing) {
-    return done &#x26;&#x26; this.once(&#x27;close&#x27;, done);
+    return done &amp;&amp; this.once('close', done);
   }
   this._closing = true;
 
   var that = this;
 
   steed.each([
-    &#x22;_client&#x22;, &#x22;_pubSubClient&#x22;
+    "_client", "_pubSubClient"
   ], function(client, cb) {
     if (that[client]) {
       that[client].quit(function quit(err) {
@@ -11521,15 +11514,15 @@ if (this.inflight[packet.messageId]) {
     }
   }, function() {
     that._closed = true;
-    that.emit(&#x27;close&#x27;);
+    that.emit('close');
     done();
   });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -11555,33 +11548,33 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">deleteOfflinePacket = function (client, messageId, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
-  var packetKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + messageId;
+  var packetKey = "packets:" + client.id + ":" + messageId;
 
   this._client.multi()
     .del(packetKey)
-    .lrem(&#x22;packets:&#x22; + client.id, 1, packetKey)
+    .lrem("packets:" + client.id, 1, packetKey)
     .exec(done);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 var that = this;
 
-logger.debug({ packet: packet }, &#x22;puback&#x22;);
+logger.debug({ packet: packet }, "puback");
 if (this.inflight[packet.messageId]) {
-  this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+  this.server.emit("delivered", this.inflight[packet.messageId], that);
   this.inflightCounter--;
   delete this.inflight[packet.messageId];
   this.server.<span class="apidocCodeKeywordSpan">deleteOfflinePacket</span>(this, packet.messageId, function(err) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+      return that.client &amp;&amp; that.client.emit("error", err);
     }
-    logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+    logger.debug({ packet: packet }, "cleaned offline packet");
   });
 } else {
-  logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+  logger.info({ packet: packet }, "no matching packet");
 ...</pre></li>
     </ul>
 
@@ -11596,12 +11589,12 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">lookupRetained = function (pattern, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
   var that = this;
   var matched = [];
   var match = function(topic, cb) {
-    that._client.hget(&#x22;retained&#x22;, topic, function(err, packet) {
+    that._client.hget("retained", topic, function(err, packet) {
       if (packet) {
 
         packet = JSON.parse(packet);
@@ -11614,14 +11607,14 @@ if (this.inflight[packet.messageId]) {
     });
   };
 
-  if (pattern.indexOf(&#x22;#&#x22;) &#x3e;= 0 || pattern.indexOf(&#x22;+&#x22;) &#x3e;= 0) {
+  if (pattern.indexOf("#") &gt;= 0 || pattern.indexOf("+") &gt;= 0) {
     var matcher = new Matcher();
     matcher.add(pattern, true);
 
-    this._client.hkeys(&#x22;retained&#x22;, function(err, topics) {
+    this._client.hkeys("retained", function(err, topics) {
       topics.sort();
       topics = topics.filter(function(topic) {
-        return matcher.match(topic).size &#x3e; 0;
+        return matcher.match(topic).size &gt; 0;
       });
 
       steed.each(topics, match, function(err) {
@@ -11648,13 +11641,13 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">lookupSubscriptions = function (client, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
   if (client.clean) {
     this._cleanClient(client, cb);
   }else{
-    var key = &#x22;client:sub:&#x22; + client.id;
+    var key = "client:sub:" + client.id;
     var subscriptions;
 
     var multi = this._client.multi();
@@ -11681,7 +11674,7 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeOfflinePacket = function (packet, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
@@ -11708,12 +11701,12 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeRetained = function (packet, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
-  if (packet.payload.length &#x3e; 0) {
-    this._client.hset(&#x22;retained&#x22;, packet.topic, JSON.stringify(packet), cb);
+  if (packet.payload.length &gt; 0) {
+    this._client.hset("retained", packet.topic, JSON.stringify(packet), cb);
   } else {
-    this._client.hdel(&#x22;retained&#x22;, packet.topic, cb);
+    this._client.hdel("retained", packet.topic, cb);
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -11730,24 +11723,24 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeSubscriptions = function (client, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
   if (client.clean) {
-    return cb &#x26;&#x26; cb();
+    return cb &amp;&amp; cb();
   }
-  var clientSubKey = &#x22;client:sub:&#x22; + client.id;
+  var clientSubKey = "client:sub:" + client.id;
   var that = this;
   var subscriptions = {};
 
   Object.keys(client.subscriptions).forEach(function(key) {
-    if (client.subscriptions[key].qos &#x3e; 0) {
+    if (client.subscriptions[key].qos &gt; 0) {
       subscriptions[key] = client.subscriptions[key];
     }
   });
 
   this._client.get(clientSubKey, function(err, currentSubs){
     var unsubs;
-    if( !err &#x26;&#x26; currentSubs ) {
+    if( !err &amp;&amp; currentSubs ) {
       currentSubs = JSON.parse(currentSubs);
       unsubs = Object.keys(currentSubs).filter(function (topic) {
         return !subscriptions[topic];
@@ -11787,18 +11780,18 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">streamOfflinePackets = function (client, cb, done) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
   var that = this,
-      listKey = &#x22;packets:&#x22; + client.id;
+      listKey = "packets:" + client.id;
 
   that._client.lrange(listKey, 0, 10000, function(err, results) {
 
     var total = results.length;
 
     // for testing
-    if(done &#x26;&#x26; total === 0)
+    if(done &amp;&amp; total === 0)
       done();
 
     function emit(key, result) {
@@ -11817,7 +11810,7 @@ if (this.inflight[packet.messageId]) {
     }
 
     results.reduce(fetch, that._client.multi()).exec(function(err,multiResults){
-      if(!multiResults &#x26;&#x26; done) {
+      if(!multiResults &amp;&amp; done) {
         done(err);
         return;
       }
@@ -11825,12 +11818,12 @@ if (this.inflight[packet.messageId]) {
         var key = results[i];
         var result = multiResult[1];
         total --;
-        // If we don&#x27;t get result for given packet key. It means
+        // If we don't get result for given packet key. It means
         // that packet has expired. Just clean it from client packets key
         if(!result) {
           that._client.lrem(listKey, 0, key);
           // for testing
-          if(done &#x26;&#x26; total === 0)
+          if(done &amp;&amp; total === 0)
             done();
           return;
         }
@@ -11853,13 +11846,13 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">updateOfflinePacket = function (client, messageId, packet, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
-  var oldPacketKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + messageId;
-  var newPacketKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + packet.messageId;
-  var listKey = &#x22;packets:&#x22; + client.id;
+  var oldPacketKey = "packets:" + client.id + ":" + messageId;
+  var newPacketKey = "packets:" + client.id + ":" + packet.messageId;
+  var listKey = "packets:" + client.id;
 
   that._client.multi()
       .rename(oldPacketKey, newPacketKey)
@@ -11877,7 +11870,7 @@ if (this.inflight[packet.messageId]) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.<span class="apidocCodeKeywordSpan">updateOfflinePacket</span>(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -11947,7 +11940,7 @@ if (this.inflight[packet.messageId]) {
     <li>description and source-code<pre class="apidocCodePre">_cleanClient = function (client, done) {
   var that = this;
 
-  var key = &#x22;client:sub:&#x22; + client.id;
+  var key = "client:sub:" + client.id;
 
   this._client.get(key, function(err, subs) {
     subs = JSON.parse(subs) || {};
@@ -11961,7 +11954,7 @@ if (this.inflight[packet.messageId]) {
         that._client.del(key, cb);
       },
       function(cb) {
-        that._client.del(&#x22;packets:&#x22; + client.id, cb);
+        that._client.del("packets:" + client.id, cb);
       }
     ], function(err) {
       if (done) {
@@ -12009,11 +12002,11 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">_storePacket = function (client, packet, pipeline, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
-  var packetKey = &#x22;packets:&#x22; + client + &#x22;:&#x22; + packet.messageId,
-      listKey = &#x22;packets:&#x22; + client;
+  var packetKey = "packets:" + client + ":" + packet.messageId,
+      listKey = "packets:" + client;
 
   pipeline.multi()
     .set(packetKey, JSON.stringify(packet))
@@ -12043,17 +12036,17 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">close = function (done) {
   if (this._closed) {
-    return done &#x26;&#x26; done();
+    return done &amp;&amp; done();
   }
   if (this._closing) {
-    return done &#x26;&#x26; this.once(&#x27;close&#x27;, done);
+    return done &amp;&amp; this.once('close', done);
   }
   this._closing = true;
 
   var that = this;
 
   steed.each([
-    &#x22;_client&#x22;, &#x22;_pubSubClient&#x22;
+    "_client", "_pubSubClient"
   ], function(client, cb) {
     if (that[client]) {
       that[client].quit(function quit(err) {
@@ -12065,15 +12058,15 @@ if (this.inflight[packet.messageId]) {
     }
   }, function() {
     that._closed = true;
-    that.emit(&#x27;close&#x27;);
+    that.emit('close');
     done();
   });
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 
-    client.on(&#x22;unsubscribe&#x22;, function(packet) {
+    client.on("unsubscribe", function(packet) {
 that.setUpTimer();
-that.logger.info({ packet: packet }, &#x22;unsubscribe received&#x22;);
+that.logger.info({ packet: packet }, "unsubscribe received");
 steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
   if (err) {
     that.logger.warn(err);
@@ -12104,33 +12097,33 @@ steed.map(that, packet.unsubscriptions, that.unsubscribeMapTo, function(err) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">deleteOfflinePacket = function (client, messageId, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
-  var packetKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + messageId;
+  var packetKey = "packets:" + client.id + ":" + messageId;
 
   this._client.multi()
     .del(packetKey)
-    .lrem(&#x22;packets:&#x22; + client.id, 1, packetKey)
+    .lrem("packets:" + client.id, 1, packetKey)
     .exec(done);
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
 var that = this;
 
-logger.debug({ packet: packet }, &#x22;puback&#x22;);
+logger.debug({ packet: packet }, "puback");
 if (this.inflight[packet.messageId]) {
-  this.server.emit(&#x22;delivered&#x22;, this.inflight[packet.messageId], that);
+  this.server.emit("delivered", this.inflight[packet.messageId], that);
   this.inflightCounter--;
   delete this.inflight[packet.messageId];
   this.server.<span class="apidocCodeKeywordSpan">deleteOfflinePacket</span>(this, packet.messageId, function(err) {
     if (err) {
-      return that.client &#x26;&#x26; that.client.emit(&#x22;error&#x22;, err);
+      return that.client &amp;&amp; that.client.emit("error", err);
     }
-    logger.debug({ packet: packet }, &#x22;cleaned offline packet&#x22;);
+    logger.debug({ packet: packet }, "cleaned offline packet");
   });
 } else {
-  logger.info({ packet: packet }, &#x22;no matching packet&#x22;);
+  logger.info({ packet: packet }, "no matching packet");
 ...</pre></li>
     </ul>
 
@@ -12150,12 +12143,12 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">lookupRetained = function (pattern, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
   var that = this;
   var matched = [];
   var match = function(topic, cb) {
-    that._client.hget(&#x22;retained&#x22;, topic, function(err, packet) {
+    that._client.hget("retained", topic, function(err, packet) {
       if (packet) {
 
         packet = JSON.parse(packet);
@@ -12168,14 +12161,14 @@ if (this.inflight[packet.messageId]) {
     });
   };
 
-  if (pattern.indexOf(&#x22;#&#x22;) &#x3e;= 0 || pattern.indexOf(&#x22;+&#x22;) &#x3e;= 0) {
+  if (pattern.indexOf("#") &gt;= 0 || pattern.indexOf("+") &gt;= 0) {
     var matcher = new Matcher();
     matcher.add(pattern, true);
 
-    this._client.hkeys(&#x22;retained&#x22;, function(err, topics) {
+    this._client.hkeys("retained", function(err, topics) {
       topics.sort();
       topics = topics.filter(function(topic) {
-        return matcher.match(topic).size &#x3e; 0;
+        return matcher.match(topic).size &gt; 0;
       });
 
       steed.each(topics, match, function(err) {
@@ -12207,13 +12200,13 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">lookupSubscriptions = function (client, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
   if (client.clean) {
     this._cleanClient(client, cb);
   }else{
-    var key = &#x22;client:sub:&#x22; + client.id;
+    var key = "client:sub:" + client.id;
     var subscriptions;
 
     var multi = this._client.multi();
@@ -12245,7 +12238,7 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeOfflinePacket = function (packet, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
@@ -12277,12 +12270,12 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeRetained = function (packet, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
-  if (packet.payload.length &#x3e; 0) {
-    this._client.hset(&#x22;retained&#x22;, packet.topic, JSON.stringify(packet), cb);
+  if (packet.payload.length &gt; 0) {
+    this._client.hset("retained", packet.topic, JSON.stringify(packet), cb);
   } else {
-    this._client.hdel(&#x22;retained&#x22;, packet.topic, cb);
+    this._client.hdel("retained", packet.topic, cb);
   }
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">n/a</pre></li>
@@ -12304,24 +12297,24 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">storeSubscriptions = function (client, cb) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
   if (client.clean) {
-    return cb &#x26;&#x26; cb();
+    return cb &amp;&amp; cb();
   }
-  var clientSubKey = &#x22;client:sub:&#x22; + client.id;
+  var clientSubKey = "client:sub:" + client.id;
   var that = this;
   var subscriptions = {};
 
   Object.keys(client.subscriptions).forEach(function(key) {
-    if (client.subscriptions[key].qos &#x3e; 0) {
+    if (client.subscriptions[key].qos &gt; 0) {
       subscriptions[key] = client.subscriptions[key];
     }
   });
 
   this._client.get(clientSubKey, function(err, currentSubs){
     var unsubs;
-    if( !err &#x26;&#x26; currentSubs ) {
+    if( !err &amp;&amp; currentSubs ) {
       currentSubs = JSON.parse(currentSubs);
       unsubs = Object.keys(currentSubs).filter(function (topic) {
         return !subscriptions[topic];
@@ -12366,18 +12359,18 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">streamOfflinePackets = function (client, cb, done) {
   if (this._explicitlyClosed()) {
-    return cb &#x26;&#x26; cb(new Error(&#x27;Explicitly closed&#x27;));
+    return cb &amp;&amp; cb(new Error('Explicitly closed'));
   }
 
   var that = this,
-      listKey = &#x22;packets:&#x22; + client.id;
+      listKey = "packets:" + client.id;
 
   that._client.lrange(listKey, 0, 10000, function(err, results) {
 
     var total = results.length;
 
     // for testing
-    if(done &#x26;&#x26; total === 0)
+    if(done &amp;&amp; total === 0)
       done();
 
     function emit(key, result) {
@@ -12396,7 +12389,7 @@ if (this.inflight[packet.messageId]) {
     }
 
     results.reduce(fetch, that._client.multi()).exec(function(err,multiResults){
-      if(!multiResults &#x26;&#x26; done) {
+      if(!multiResults &amp;&amp; done) {
         done(err);
         return;
       }
@@ -12404,12 +12397,12 @@ if (this.inflight[packet.messageId]) {
         var key = results[i];
         var result = multiResult[1];
         total --;
-        // If we don&#x27;t get result for given packet key. It means
+        // If we don't get result for given packet key. It means
         // that packet has expired. Just clean it from client packets key
         if(!result) {
           that._client.lrem(listKey, 0, key);
           // for testing
-          if(done &#x26;&#x26; total === 0)
+          if(done &amp;&amp; total === 0)
             done();
           return;
         }
@@ -12437,13 +12430,13 @@ if (this.inflight[packet.messageId]) {
     <ul>
     <li>description and source-code<pre class="apidocCodePre">updateOfflinePacket = function (client, messageId, packet, done) {
   if (this._explicitlyClosed()) {
-    return done &#x26;&#x26; done(new Error(&#x27;Explicitly closed&#x27;));
+    return done &amp;&amp; done(new Error('Explicitly closed'));
   }
 
   var that = this;
-  var oldPacketKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + messageId;
-  var newPacketKey = &#x22;packets:&#x22; + client.id + &#x22;:&#x22; + packet.messageId;
-  var listKey = &#x22;packets:&#x22; + client.id;
+  var oldPacketKey = "packets:" + client.id + ":" + messageId;
+  var newPacketKey = "packets:" + client.id + ":" + packet.messageId;
+  var listKey = "packets:" + client.id;
 
   that._client.multi()
       .rename(oldPacketKey, newPacketKey)
@@ -12461,7 +12454,7 @@ if (this.inflight[packet.messageId]) {
         that._lastDedupId = options._dedupId;
       }
 
-      if (qos &#x26;&#x26; options.messageId) {
+      if (qos &amp;&amp; options.messageId) {
         that.server.<span class="apidocCodeKeywordSpan">updateOfflinePacket</span>(that, options.messageId, packet, doForward);
       } else {
         doForward(null, packet);
@@ -12558,3 +12551,4 @@ if (this.inflight[packet.messageId]) {
     ]
 </div>
 </div>
+</body></html>
