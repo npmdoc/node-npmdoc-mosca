@@ -1,4 +1,7 @@
-# api documentation for  [mosca (v2.3.0)](https://github.com/mcollina/mosca#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-mosca.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-mosca) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-mosca.svg)](https://travis-ci.org/npmdoc/node-npmdoc-mosca)
+# npmdoc-mosca
+
+#### basic api documentation for  [mosca (v2.3.0)](https://github.com/mcollina/mosca#readme)  [![npm package](https://img.shields.io/npm/v/npmdoc-mosca.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-mosca) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-mosca.svg)](https://travis-ci.org/npmdoc/node-npmdoc-mosca)
+
 #### MQTT broker as a module
 
 [![NPM](https://nodei.co/npm/mosca.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/mosca)
